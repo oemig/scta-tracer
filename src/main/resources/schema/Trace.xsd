@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2011 rel. 3 (http://www.altova.com) by Christoph Oemig (Oemig) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="Trace">
+		<xs:annotation>
+			<xs:documentation>Assessment trace</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Session" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Assessment session</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Run" minOccurs="0" maxOccurs="unbounded">
+								<xs:annotation>
+									<xs:documentation>Assessment run</xs:documentation>
+								</xs:annotation>
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Participant" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:attribute name="Name" type="xs:string"/>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="CountData" minOccurs="0" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:attribute name="Participant" type="xs:string"/>
+												<xs:attribute name="Letter" type="xs:string"/>
+												<xs:attribute name="Quantity" type="xs:int"/>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="ResponseData" minOccurs="0" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:attribute name="Participant" type="xs:string"/>
+												<xs:attribute name="Correct" type="xs:boolean"/>
+												<xs:attribute name="Responsetime" type="xs:int"/>
+												<xs:attribute name="QuestionType" type="xs:string"/>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="Name" type="xs:string"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="Name" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
