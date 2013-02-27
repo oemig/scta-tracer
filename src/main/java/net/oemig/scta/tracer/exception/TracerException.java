@@ -2,6 +2,11 @@ package net.oemig.scta.tracer.exception;
 
 public class TracerException extends Exception {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3890068630993381869L;
+
 	public static final int NOT_BOUND_EXCEPTION = 1;
 
 	public static final int ACCESS_EXCEPTION = 2;

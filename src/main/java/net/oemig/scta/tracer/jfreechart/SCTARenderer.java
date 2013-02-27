@@ -7,37 +7,20 @@ import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 
 import net.oemig.scta.tracer.jfreechart.data.SCTADataset;
 
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.entity.EntityCollection;
-import org.jfree.chart.event.RendererChangeEvent;
 import org.jfree.chart.plot.CrosshairState;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.PlotRenderingInfo;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.GrayPaintScale;
 import org.jfree.chart.renderer.LookupPaintScale;
-import org.jfree.chart.renderer.PaintScale;
-import org.jfree.chart.renderer.xy.AbstractXYItemRenderer;
-import org.jfree.chart.renderer.xy.XYItemRenderer;
-import org.jfree.chart.renderer.xy.XYItemRendererState;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.chart.renderer.xy.XYShapeRenderer;
-import org.jfree.data.Range;
-import org.jfree.data.general.DatasetUtilities;
 import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYZDataset;
-import org.jfree.io.SerialUtilities;
 import org.jfree.ui.RectangleEdge;
-import org.jfree.util.PublicCloneable;
 import org.jfree.util.ShapeUtilities;
 
 /**

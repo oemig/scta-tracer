@@ -23,7 +23,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.border.TitledBorder;
-import javax.xml.bind.JAXB;
 
 import net.oemig.scta.tracer.IRegistrationListener;
 import net.oemig.scta.tracer.ITracerMediatorScreenSPI;

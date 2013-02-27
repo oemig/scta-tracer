@@ -13,7 +13,7 @@ public class ErrorRate {
 
 	private double value;
 
-	public ErrorRate(List<Run> aRunList) {
+	private ErrorRate(List<Run> aRunList) {
 		int errorCounter = 0;
 		int correctCounter = 0;
 		for (Run run : aRunList) {
