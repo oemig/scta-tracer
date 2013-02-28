@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
 import net.oemig.scta.tracer.model.ITraceModel;
 
 public class QuestionFactory {
 
 	public static Question[] getMultiple(String userName, ITraceModel model) {
-		List<IQuestionGenerator> generators = new ArrayList<IQuestionGenerator>();
+		List<IQuestionGenerator> generators = Lists.newArrayList();
 		generators.add(new GroupHowQuestionGenerator(userName, model));
 		generators.add(new GroupWhoQuestionGenerator(userName, model));
 		generators.add(new IndividualHowQuestionGenerator(userName, model));
