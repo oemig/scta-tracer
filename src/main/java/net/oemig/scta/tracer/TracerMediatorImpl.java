@@ -16,6 +16,7 @@ import net.oemig.scta.tracer.model.ITraceModel;
 import net.oemig.scta.tracer.model.impl.JAXBTraceModelImpl;
 import net.oemig.scta.tracer.question.Question;
 import net.oemig.scta.tracer.question.QuestionFactory;
+import net.oemig.scta.tracer.question.QuestionType;
 import net.oemig.scta.tracer.run.AssessmentRun;
 import net.oemig.scta.tracer.run.IAssessmentRunListener;
 import net.oemig.scta.tracer.screen.AdministrationScreen;
@@ -134,12 +135,15 @@ public class TracerMediatorImpl implements ITracerMediator,
 	 * @see ITracerMediator#saveResponseData(String, boolean, int)
 	 */
 	@Override
-	public void saveResponseData(String participantName, boolean isCorrect,
-			int responseTime) {
+	public void saveResponseData(
+			String participantName, 
+			boolean isCorrect,
+			int responseTime,
+			QuestionType questionType) {
 
 		// dispatch to trace model
 		getTraceModel().addResponseData(participantName, isCorrect,
-				responseTime);
+				responseTime,questionType);
 		// response data saved in model!
 	}
 

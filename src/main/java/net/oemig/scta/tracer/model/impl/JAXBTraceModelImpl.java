@@ -14,6 +14,7 @@ import net.oemig.scta.tracer.model.binding.Trace.Session.Run;
 import net.oemig.scta.tracer.model.binding.Trace.Session.Run.CountData;
 import net.oemig.scta.tracer.model.binding.Trace.Session.Run.Participant;
 import net.oemig.scta.tracer.model.binding.Trace.Session.Run.ResponseData;
+import net.oemig.scta.tracer.question.QuestionType;
 
 public class JAXBTraceModelImpl implements ITraceModel {
 
@@ -135,17 +136,21 @@ public class JAXBTraceModelImpl implements ITraceModel {
 
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see net.oemig.scta.tracer.model.ITraceModel#addResponseData(java.lang.String, boolean, int)
 	 */
 	@Override
-	public void addResponseData(String participantName, boolean isCorrect,
-			int responseTime) {
+	public void addResponseData(
+			String participantName, 
+			boolean isCorrect,
+			int responseTime,
+			QuestionType questionType) {
 		ResponseData responseData = this.objectFactory
 				.createTraceSessionRunResponseData();
 		responseData.setParticipant(participantName);
 		responseData.setCorrect(isCorrect);
 		responseData.setResponsetime(new Integer(responseTime));
+		responseData.setQuestionType(questionType.name());
 
 		getCurrentRun().getResponseData().add(responseData);
 

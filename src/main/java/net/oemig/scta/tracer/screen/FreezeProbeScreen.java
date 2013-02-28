@@ -55,6 +55,9 @@ public class FreezeProbeScreen implements IScreen {
 		g.add(rbOption1);
 		g.add(rbOption2);
 		g.add(rbOption3);
+		
+		//an item listener waits for the selection of an
+		//option and forwards the answer to the mediator
 		ItemListener il = new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
@@ -73,7 +76,9 @@ public class FreezeProbeScreen implements IScreen {
 										((JRadioButton) e.getItem())
 												.getActionCommand())
 										.booleanValue(),
-								(int) stopWatch.getTime());
+								(int) stopWatch.getTime(),
+								questions[questionCounter].getType()
+								);
 					} catch (RemoteException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -92,7 +97,7 @@ public class FreezeProbeScreen implements IScreen {
 				}
 			}
 		};
-
+		//add item listener to each option
 		rbOption1.addItemListener(il);
 		rbOption2.addItemListener(il);
 		rbOption3.addItemListener(il);
@@ -108,7 +113,7 @@ public class FreezeProbeScreen implements IScreen {
 		fillQuestion(0);
 	}
 
-	public void fillQuestion(int i) {
+	private void fillQuestion(int i) {
 		this.f.setTitle("Freeze Probe - Question #" + (i + 1));
 		this.g.clearSelection();
 

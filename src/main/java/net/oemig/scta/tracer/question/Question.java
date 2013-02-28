@@ -11,6 +11,9 @@ public class Question implements Serializable {
 	private String answer2;
 	private String answer3;
 	private String correctAnswer;
+	/**
+	 * One of {@link QuestionType}
+	 */
 	private QuestionType type;
 
 	public Question(String newQuestion, String newAnswer1, String newAnswer2,
@@ -44,6 +47,10 @@ public class Question implements Serializable {
 		return correctAnswer;
 	}
 
+	/**
+	 * One of {@link QuestionType}
+	 * @return {@link QuestionType}
+	 */
 	public QuestionType getType() {
 		return type;
 	}

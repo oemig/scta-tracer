@@ -3,6 +3,7 @@ package net.oemig.scta.tracer.model;
 import net.oemig.scta.tracer.model.binding.Trace;
 import net.oemig.scta.tracer.model.binding.Trace.Session;
 import net.oemig.scta.tracer.model.binding.Trace.Session.Run;
+import net.oemig.scta.tracer.question.QuestionType;
 
 public interface ITraceModel {
 
@@ -22,8 +23,11 @@ public interface ITraceModel {
 
 	public void addCountData(String participantName, String letter, int quantity);
 
-	public void addResponseData(String participantName, boolean isCorrect,
-			int responseTime);
+	public void addResponseData(
+			String participantName, 
+			boolean isCorrect,
+			int responseTime,
+			QuestionType questionType);
 
 	public void save();
 
