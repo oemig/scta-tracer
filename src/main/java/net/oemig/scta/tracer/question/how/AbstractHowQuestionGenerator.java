@@ -1,12 +1,18 @@
-package net.oemig.scta.tracer.question;
+package net.oemig.scta.tracer.question.how;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 import net.oemig.scta.tracer.evaluation.CountDataUtil;
 import net.oemig.scta.tracer.model.ITraceModel;
 import net.oemig.scta.tracer.model.binding.Trace.Session.Run.CountData;
+import net.oemig.scta.tracer.question.IQuestionGenerator;
+import net.oemig.scta.tracer.question.Question;
+import net.oemig.scta.tracer.question.QuestionException;
+import net.oemig.scta.tracer.question.QuestionType;
+
+import com.google.common.collect.Lists;
 
 public abstract class AbstractHowQuestionGenerator implements
 		IQuestionGenerator {
@@ -21,7 +27,7 @@ public abstract class AbstractHowQuestionGenerator implements
 
 	@Override
 	public Question generate() {
-		List<String> answers = new ArrayList<String>();
+		List<String> answers = Lists.newArrayList();
 		answers.add(CountDataUtil.NONE);
 		answers.add(Integer.toString(CountDataUtil.getRandomNumber(25)));
 
@@ -29,7 +35,7 @@ public abstract class AbstractHowQuestionGenerator implements
 		String correct;
 		try {
 			// get the "others" data
-			CountData cd = CountDataUtil.getRandomCountData(getCountData());
+			CountData cd = CountDataUtil.random(getCountData());
 			answers.add(cd.getQuantity().toString());
 			letter = cd.getLetter();
 			correct = cd.getQuantity().toString();
@@ -53,7 +59,7 @@ public abstract class AbstractHowQuestionGenerator implements
 
 	public abstract QuestionType getType();
 
-	public abstract List<CountData> getCountData();
+	public abstract Collection<CountData> getCountData();
 
 	public String getUserName() {
 		return userName;

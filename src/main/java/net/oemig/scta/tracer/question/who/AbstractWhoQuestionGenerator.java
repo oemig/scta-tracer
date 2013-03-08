@@ -1,12 +1,18 @@
-package net.oemig.scta.tracer.question;
+package net.oemig.scta.tracer.question.who;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 import net.oemig.scta.tracer.evaluation.CountDataUtil;
 import net.oemig.scta.tracer.model.ITraceModel;
 import net.oemig.scta.tracer.model.binding.Trace.Session.Run.CountData;
+import net.oemig.scta.tracer.question.IQuestionGenerator;
+import net.oemig.scta.tracer.question.Question;
+import net.oemig.scta.tracer.question.QuestionException;
+import net.oemig.scta.tracer.question.QuestionType;
+
+import com.google.common.collect.Lists;
 
 public abstract class AbstractWhoQuestionGenerator implements
 		IQuestionGenerator {
@@ -14,7 +20,8 @@ public abstract class AbstractWhoQuestionGenerator implements
 	private String userName;
 	private ITraceModel model;
 
-	public AbstractWhoQuestionGenerator(String newUserName, ITraceModel newModel) {
+	public AbstractWhoQuestionGenerator(final String newUserName, 
+										final ITraceModel newModel) {
 		this.userName = newUserName;
 		this.model = newModel;
 	}
@@ -22,15 +29,19 @@ public abstract class AbstractWhoQuestionGenerator implements
 	@Override
 	public Question generate() {
 
-		List<String> answers = new ArrayList<String>();
+		//initialize answers with the user's name and nobody
+		List<String> answers = Lists.newArrayList();
 		answers.add(userName);
 		answers.add(CountDataUtil.NOBODY);
 
+		//then try to add a third answer from count data
+		//or any other random letter that nobody has counted
+		//yet
 		String letter;
 		String correct;
 		try {
 			// get the "others" data
-			CountData cd = CountDataUtil.getRandomCountData(getCountData());
+			CountData cd = CountDataUtil.random(getCountData());
 			letter = cd.getLetter();
 			correct = cd.getParticipant();
 			answers.add(cd.getParticipant());
@@ -53,7 +64,7 @@ public abstract class AbstractWhoQuestionGenerator implements
 
 	public abstract QuestionType getType();
 
-	public abstract List<CountData> getCountData();
+	public abstract Collection<CountData> getCountData();
 
 	public String getUserName() {
 		return userName;

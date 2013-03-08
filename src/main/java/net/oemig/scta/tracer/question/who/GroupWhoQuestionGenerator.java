@@ -1,10 +1,11 @@
-package net.oemig.scta.tracer.question;
+package net.oemig.scta.tracer.question.who;
 
-import java.util.List;
+import java.util.Collection;
 
 import net.oemig.scta.tracer.evaluation.CountDataUtil;
 import net.oemig.scta.tracer.model.ITraceModel;
 import net.oemig.scta.tracer.model.binding.Trace.Session.Run.CountData;
+import net.oemig.scta.tracer.question.QuestionType;
 
 /**
  * GroupWhoQuestion Get a count result from the model. Counting person must not
@@ -25,7 +26,7 @@ public class GroupWhoQuestionGenerator extends AbstractWhoQuestionGenerator {
 	}
 
 	@Override
-	public List<CountData> getCountData() {
+	public Collection<CountData> getCountData() {
 		return CountDataUtil.filterOthersCountData(getModel().getCurrentRun()
 				.getCountData(), getUserName());
 	}
