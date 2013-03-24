@@ -3,16 +3,47 @@ package net.oemig.scta.tracer;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+import net.oemig.scta.tracer.data.ExperiementId;
+import net.oemig.scta.tracer.data.UserName;
 import net.oemig.scta.tracer.question.QuestionType;
 
+/**
+ * {@link ITracerMediator} is the central remote interface for the center
+ * piece of the mediator pattern (Gamma et al.) used in the SCTA tracer.
+ * 
+ * @author oemig
+ *
+ */
 public interface ITracerMediator extends Remote {
 
-	public void register(String userName, ITracerColleague colleague)
+	/**
+	 * Register a {@link UserName} for participating in an experiement.
+	 * @param anUserName
+	 * @param anExperimentId
+	 * @param aColleague
+	 * @throws RemoteException
+	 */
+	public void register(final UserName anUserName, final ExperiementId anExperimentId, final ITracerColleague aColleague)
 			throws RemoteException;
 
-	public void unregister(String userName) throws RemoteException;
+	/**
+	 * Unregisters an experiement's participant with the mediator.
+	 * 
+	 * @param userName
+	 * @throws RemoteException
+	 */
+	public void unregister(final UserName userName) throws RemoteException;
 
-	public void saveCountData(String participantName, String letter, int result)
+	/**
+	 * Saves the counting result from a user for a certain letter 
+	 * in the mediator's model.
+	 * 
+	 * @param participantName
+	 * @param letter
+	 * @param result
+	 * @throws RemoteException
+	 */
+	public void saveCountData(final UserName participantName, final String letter, final int result)
 			throws RemoteException;
 
 	/**
@@ -25,10 +56,10 @@ public interface ITracerMediator extends Remote {
 	 * @throws RemoteException
 	 */
 	public void saveResponseData(
-			String participantName, 
-			boolean isCorrect,
-			int responseTime,
-			QuestionType questionType) throws RemoteException;
+			final UserName participantName, 
+			final boolean isCorrect,
+			final int responseTime,
+			final QuestionType questionType) throws RemoteException;
 
-	public void finishedFreezeProbe(String userName) throws RemoteException;
+	public void finishedFreezeProbe(UserName userName) throws RemoteException;
 }

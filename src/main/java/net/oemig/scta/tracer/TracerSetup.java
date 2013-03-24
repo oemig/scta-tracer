@@ -7,7 +7,6 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
 
-import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -38,22 +37,20 @@ public class TracerSetup {
 	}
 
 	public TracerSetup() throws Exception {
-		String userName = JOptionPane
-				.showInputDialog("Please enter a user name!");
-		// Logger.log(getClass().getName() + ": Name entered: " + userName);
+		
 
 		try {
 			ITracerMediator mediator = lookupMediator();
 
 			// still here?
-			new TracerColleagueImpl(mediator, userName);
+			new TracerColleagueImpl(mediator);
 			// if binding is successful then you
 			// are the administrator of the software
 			// next we need to setup the data model for the
 			// mediator to work with
 
 		} catch (TracerException e) {
-			ITracerMediator mediator = new TracerMediatorImpl(userName);
+			ITracerMediator mediator = new TracerMediatorImpl();
 			bindMediator(mediator);
 		}
 	}
@@ -71,7 +68,7 @@ public class TracerSetup {
 		}
 	}
 
-	private void bindMediator(ITracerMediator mediator) throws TracerException {
+	private void bindMediator(final ITracerMediator mediator) throws TracerException {
 		try {
 			ITracerMediator stub = (ITracerMediator) UnicastRemoteObject
 					.exportObject(mediator, 0);

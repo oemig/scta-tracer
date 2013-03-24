@@ -3,6 +3,7 @@ package net.oemig.scta.tracer.question.what;
 import java.util.Collection;
 import java.util.List;
 
+import net.oemig.scta.tracer.data.UserName;
 import net.oemig.scta.tracer.evaluation.CountDataUtil;
 import net.oemig.scta.tracer.model.ITraceModel;
 import net.oemig.scta.tracer.model.binding.Trace.Session.Run.CountData;
@@ -22,7 +23,7 @@ import com.google.common.collect.ImmutableList;
 public abstract class AbstractWhatQuestionGenerator implements
 		IQuestionGenerator {
 
-	private String userName;
+	private UserName userName;
 	private ITraceModel model;
 	
 	/**
@@ -31,7 +32,7 @@ public abstract class AbstractWhatQuestionGenerator implements
 	 * @param aTraceModel
 	 */
 	public AbstractWhatQuestionGenerator(
-			final String aUserName,
+			final UserName aUserName,
 			final ITraceModel aTraceModel
 			) {
 		userName=aUserName;
@@ -77,7 +78,7 @@ public abstract class AbstractWhatQuestionGenerator implements
 	public abstract QuestionType getType();
 	public abstract Collection<CountData> getCountData();
 
-	public String getUserName() {
+	public UserName getUserName() {
 		return userName;
 	}
 

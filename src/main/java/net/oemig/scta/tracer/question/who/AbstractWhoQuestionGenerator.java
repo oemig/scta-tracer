@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import net.oemig.scta.tracer.data.UserName;
 import net.oemig.scta.tracer.evaluation.CountDataUtil;
 import net.oemig.scta.tracer.model.ITraceModel;
 import net.oemig.scta.tracer.model.binding.Trace.Session.Run.CountData;
@@ -17,10 +18,10 @@ import com.google.common.collect.Lists;
 public abstract class AbstractWhoQuestionGenerator implements
 		IQuestionGenerator {
 
-	private String userName;
+	private UserName userName;
 	private ITraceModel model;
 
-	public AbstractWhoQuestionGenerator(final String newUserName, 
+	public AbstractWhoQuestionGenerator(final UserName newUserName, 
 										final ITraceModel newModel) {
 		this.userName = newUserName;
 		this.model = newModel;
@@ -31,7 +32,7 @@ public abstract class AbstractWhoQuestionGenerator implements
 
 		//initialize answers with the user's name and nobody
 		List<String> answers = Lists.newArrayList();
-		answers.add(userName);
+		answers.add(userName.toString());
 		answers.add(CountDataUtil.NOBODY);
 
 		//then try to add a third answer from count data
@@ -66,7 +67,7 @@ public abstract class AbstractWhoQuestionGenerator implements
 
 	public abstract Collection<CountData> getCountData();
 
-	public String getUserName() {
+	public UserName getUserName() {
 		return userName;
 	}
 

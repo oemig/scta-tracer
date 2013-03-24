@@ -1,12 +1,10 @@
 package net.oemig.scta.tracer;
 
-import net.oemig.scta.tracer.configuration.IConfiguration;
+import net.oemig.scta.tracer.data.UserName;
 import net.oemig.scta.tracer.evaluation.EvaluationResult;
 import net.oemig.scta.tracer.evaluation.IEvaluation;
 import net.oemig.scta.tracer.evaluation.exception.ModelMissingException;
 import net.oemig.scta.tracer.exception.TracerException;
-import net.oemig.scta.tracer.model.ITraceModel;
-import net.oemig.scta.tracer.util.Logger;
 
 public interface ITracerMediatorScreenSPI {
 	public void startAssessmentRun(String message) throws TracerException;
@@ -17,15 +15,11 @@ public interface ITracerMediatorScreenSPI {
 
 	public void removeRegistrationListener(IRegistrationListener listener);
 
-	public String getUserName();
+	public UserName getUserName();
 
-	public ITraceModel getTraceModel();
+	public Environment getEnvironment();
 
-	public IConfiguration getConfiguration();
-
-	public String[] getRegisteredUsers();
-
-	public Logger getLog();
+	public UserName[] getRegisteredUsers();
 
 	public ITracerMediatorScreenSPI with(IEvaluation anEvaluation);
 

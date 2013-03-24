@@ -4,41 +4,45 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
+import javax.swing.JOptionPane;
+
+import net.oemig.scta.tracer.data.ExperiementId;
+import net.oemig.scta.tracer.data.UserName;
+import net.oemig.scta.tracer.log.impl.Logger;
 import net.oemig.scta.tracer.question.Question;
 import net.oemig.scta.tracer.run.Document;
 import net.oemig.scta.tracer.screen.DocumentScreen;
 import net.oemig.scta.tracer.screen.FreezeProbeScreen;
 import net.oemig.scta.tracer.screen.WaitScreen;
-import net.oemig.scta.tracer.util.Logger;
 
 public class TracerColleagueImpl implements ITracerColleague,
 		ITracerColleagueScreenSPI, Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1134304563074106510L;
-	/**
-	 * 
-	 */
 
 	private ITracerMediator mediator;
-	private String userName;
+	private UserName userName;
 	private WaitScreen waitScreen;
 	private DocumentScreen documentScreen;
 	private FreezeProbeScreen freezeProbeScreen;
 	private Logger log;
 
-	public TracerColleagueImpl(ITracerMediator newMediator, String newUserName)
+	public TracerColleagueImpl(ITracerMediator newMediator)
 			throws RemoteException {
 		this.log = new Logger();
 		this.mediator = newMediator;
-		this.userName = newUserName;
+		
+		this.userName = UserName.of(JOptionPane
+				.showInputDialog("Please enter a user name!"));
+		
 		this.waitScreen = new WaitScreen("Connecting...");
 		this.documentScreen = new DocumentScreen(this);
 		this.freezeProbeScreen = new FreezeProbeScreen(this);
 
-		this.mediator.register(userName,
+		final ExperiementId experimentId = ExperiementId.of(JOptionPane
+				.showInputDialog("Please enter an experiment id!"));
+		
+		this.mediator.register(userName,experimentId,
 				(ITracerColleague) UnicastRemoteObject.exportObject(this, 0));
 		waitScreen.show();
 	}
@@ -73,7 +77,7 @@ public class TracerColleagueImpl implements ITracerColleague,
 	 * @see ITracerColleagueScreenSPI#getUserName()
 	 */
 	@Override
-	public String getUserName() {
+	public UserName getUserName() {
 		return this.userName;
 	}
 

@@ -1,19 +1,19 @@
 package net.oemig.scta.tracer;
 
 import java.rmi.RemoteException;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
-import net.oemig.scta.tracer.configuration.IConfiguration;
-import net.oemig.scta.tracer.configuration.impl.PropertyConfigurationImpl;
+import javax.swing.JOptionPane;
+
+import net.oemig.scta.tracer.data.ExperiementId;
+import net.oemig.scta.tracer.data.UserName;
 import net.oemig.scta.tracer.evaluation.EvaluationResult;
 import net.oemig.scta.tracer.evaluation.IEvaluation;
 import net.oemig.scta.tracer.evaluation.exception.ModelMissingException;
 import net.oemig.scta.tracer.evaluation.impl.SctaV1EvaluationImpl;
 import net.oemig.scta.tracer.exception.TracerException;
 import net.oemig.scta.tracer.model.ITraceModel;
-import net.oemig.scta.tracer.model.impl.JAXBTraceModelImpl;
 import net.oemig.scta.tracer.question.Question;
 import net.oemig.scta.tracer.question.QuestionFactory;
 import net.oemig.scta.tracer.question.QuestionType;
@@ -21,7 +21,9 @@ import net.oemig.scta.tracer.run.AssessmentRun;
 import net.oemig.scta.tracer.run.IAssessmentRunListener;
 import net.oemig.scta.tracer.screen.AdministrationScreen;
 import net.oemig.scta.tracer.screen.IScreen;
-import net.oemig.scta.tracer.util.Logger;
+
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 public class TracerMediatorImpl implements ITracerMediator,
 		ITracerMediatorScreenSPI, IAssessmentRunListener {
@@ -29,32 +31,31 @@ public class TracerMediatorImpl implements ITracerMediator,
 	private static final IEvaluation DEFAULT_EVALUATION = SctaV1EvaluationImpl
 			.getInstance();
 
-	Map<String, ITracerColleague> colleagueMap;
-	private String userName;
+	Map<UserName, ITracerColleague> colleagueMap;
+	private UserName userName;
 	private HashSet<IRegistrationListener> registrationListeners;
 	private AssessmentRun assessmentRun;
 	private IScreen adminstrationScreen;
 	private ITraceModel traceModel;
 	private int colleaguesInFreezeProbe;
-	private IConfiguration configuration;
-	private Logger log;
 	private IEvaluation evaluation;
+
+	private Environment envinronment;
 
 	/**
 	 * Constructor
-	 * 
-	 * @param newUserName
 	 */
-	public TracerMediatorImpl(String newUserName) {
-		this.userName = newUserName;
-		this.colleagueMap = new HashMap<String, ITracerColleague>();
-		this.configuration = new PropertyConfigurationImpl();
-		this.log = new Logger();
-		this.registrationListeners = new HashSet<IRegistrationListener>();
+	public TracerMediatorImpl() {
+		envinronment=Environment.getInstance();
+		this.userName = UserName.of(JOptionPane
+				.showInputDialog("Please enter a user name!"));
+		
+		this.colleagueMap = Maps.newHashMap();
+		 
+		this.registrationListeners = Sets.newHashSet();
 
-		this.traceModel = new JAXBTraceModelImpl(configuration);
 
-		this.assessmentRun = new AssessmentRun(this.getConfiguration());
+		this.assessmentRun = new AssessmentRun(envinronment.getConfiguration());
 		assessmentRun.addListener(this);
 
 		//TODO add screen as listener for assessment run to capture finish event
@@ -70,9 +71,9 @@ public class TracerMediatorImpl implements ITracerMediator,
 	 * @see ITracerMediator#register(String, ITracerColleague)
 	 */
 	@Override
-	public void register(String userName, ITracerColleague colleague)
+	public void register(final UserName userName, final ExperiementId anExperiementId, final ITracerColleague colleague)
 			throws RemoteException {
-		log.log(getClass().getName() + ": " + userName + " registered.");
+		envinronment.getLogger().log(getClass().getName() + ": " + userName + " registered.");
 		// store name and remote reference for later use
 		this.colleagueMap.put(userName, colleague);
 
@@ -111,7 +112,7 @@ public class TracerMediatorImpl implements ITracerMediator,
 	 * @see ITracerMediatorScreenSPI#getUserName()
 	 */
 	@Override
-	public String getUserName() {
+	public UserName getUserName() {
 		return userName;
 	}
 
@@ -119,14 +120,14 @@ public class TracerMediatorImpl implements ITracerMediator,
 	 * @see ITracerMediator#saveCountData(String, String, int)
 	 */
 	@Override
-	public void saveCountData(String participantName, String letter,
-			int quantity) {
+	public void saveCountData(final UserName participantName, final String letter,
+			final int quantity) {
 
 		// dispatch to model
-		getTraceModel().addCountData(participantName, letter, quantity);
+		envinronment.getTraceModel().addCountData(participantName, letter, quantity);
 		// count data saved in model!
 
-		log.log(getClass().getName() + ".saveCountData() --name: "
+		envinronment.getLogger().log(getClass().getName() + ".saveCountData() --name: "
 				+ participantName + " --letter: " + letter + " --quantitiy: "
 				+ quantity);
 	}
@@ -136,13 +137,13 @@ public class TracerMediatorImpl implements ITracerMediator,
 	 */
 	@Override
 	public void saveResponseData(
-			String participantName, 
-			boolean isCorrect,
-			int responseTime,
-			QuestionType questionType) {
+			final UserName participantName, 
+			final boolean isCorrect,
+			final int responseTime,
+			final QuestionType questionType) {
 
 		// dispatch to trace model
-		getTraceModel().addResponseData(participantName, isCorrect,
+		envinronment.getTraceModel().addResponseData(participantName, isCorrect,
 				responseTime,questionType);
 		// response data saved in model!
 	}
@@ -189,13 +190,13 @@ public class TracerMediatorImpl implements ITracerMediator,
 	@Override
 	public void doFreezeProbe() throws TracerException {
 		// hand over questions to colleagues
-		log.log(getClass().getName()
+		envinronment.getLogger().log(getClass().getName()
 				+ ": launch freeze probe for all colleagues");
-		for (String colleagueName : this.colleagueMap.keySet()) {
+		for (UserName colleagueName : this.colleagueMap.keySet()) {
 			try {
 				ITracerColleague c = colleagueMap.get(colleagueName);
 				c.doFreezeProbe(QuestionFactory.getMultiple(colleagueName,
-						getTraceModel()));
+						envinronment.getTraceModel()));
 			} catch (RemoteException e) {
 				throw new TracerException(TracerException.REMOTE_EXCEPTION, e);
 			}
@@ -208,21 +209,16 @@ public class TracerMediatorImpl implements ITracerMediator,
 	 * @see ITracerMediator#unregister(String)
 	 */
 	@Override
-	public void unregister(String userName) throws RemoteException {
+	public void unregister(final UserName userName) throws RemoteException {
 		this.colleagueMap.remove(userName);
 		notifyRegistrationListeners();
-	}
-
-	@Override
-	public ITraceModel getTraceModel() {
-		return this.traceModel;
 	}
 
 	/**
 	 * @see ITracerMediator#finishedFreezeProbe(String)
 	 */
 	@Override
-	public void finishedFreezeProbe(String userName) throws RemoteException {
+	public void finishedFreezeProbe(final UserName userName) throws RemoteException {
 		// take the user's colleague reference out of the collection
 		// colleaguesInFreezeProbe.remove(this.colleagueMap.get(userName));
 		colleaguesInFreezeProbe -= 1;
@@ -237,17 +233,13 @@ public class TracerMediatorImpl implements ITracerMediator,
 		}
 	}
 
-	@Override
-	public IConfiguration getConfiguration() {
-		return this.configuration;
-	}
 
 	@Override
 	public void finishedRun() throws TracerException {
 		for (ITracerColleague c : this.colleagueMap.values()) {
 			try {
 				c.showWaitScreen("The run has finished.. Thank you very much");
-				log.log("Run finished.");
+				envinronment.getLogger().log("Run finished.");
 			} catch (RemoteException e) {
 				throw new TracerException(TracerException.REMOTE_EXCEPTION, e);
 			}
@@ -256,14 +248,10 @@ public class TracerMediatorImpl implements ITracerMediator,
 	}
 
 	@Override
-	public String[] getRegisteredUsers() {
-		return colleagueMap.keySet().toArray(new String[0]);
+	public UserName[] getRegisteredUsers() {
+		return colleagueMap.keySet().toArray(new UserName[0]);
 	}
 
-	@Override
-	public Logger getLog() {
-		return log;
-	}
 
 	@Override
 	public ITracerMediatorScreenSPI with(IEvaluation anEvaluation) {
@@ -279,7 +267,12 @@ public class TracerMediatorImpl implements ITracerMediator,
 			evaluation = DEFAULT_EVALUATION;
 		}
 
-		return evaluation.with(configuration).run(getTraceModel());
+		return evaluation.with(envinronment.getConfiguration()).run(envinronment.getTraceModel());
+	}
+
+	@Override
+	public Environment getEnvironment() {
+		return envinronment;
 	}
 
 }

@@ -2,6 +2,7 @@ package net.oemig.scta.tracer.question.who;
 
 import java.util.Collection;
 
+import net.oemig.scta.tracer.data.UserName;
 import net.oemig.scta.tracer.evaluation.CountDataUtil;
 import net.oemig.scta.tracer.model.ITraceModel;
 import net.oemig.scta.tracer.model.binding.Trace.Session.Run.CountData;
@@ -16,7 +17,7 @@ import net.oemig.scta.tracer.question.QuestionType;
  */
 public class GroupWhoQuestionGenerator extends AbstractWhoQuestionGenerator {
 
-	public GroupWhoQuestionGenerator(String newUserName, ITraceModel newModel) {
+	public GroupWhoQuestionGenerator(final UserName newUserName, ITraceModel newModel) {
 		super(newUserName, newModel);
 	}
 

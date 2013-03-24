@@ -2,10 +2,14 @@ package net.oemig.scta.tracer.model.impl;
 
 import java.io.File;
 
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.xml.bind.JAXB;
 
 import net.oemig.scta.tracer.configuration.IConfiguration;
+import net.oemig.scta.tracer.data.ExperiementId;
+import net.oemig.scta.tracer.data.UserName;
+import net.oemig.scta.tracer.exporter.IExporter;
 import net.oemig.scta.tracer.model.ITraceModel;
 import net.oemig.scta.tracer.model.binding.ObjectFactory;
 import net.oemig.scta.tracer.model.binding.Trace;
@@ -26,8 +30,15 @@ public class JAXBTraceModelImpl implements ITraceModel {
 	private Run currentRun;
 	private IConfiguration configuration;
 
-	public JAXBTraceModelImpl(IConfiguration aConfiguration) {
-		this.configuration=aConfiguration;
+	private IExporter exporter;
+	
+	public static JAXBTraceModelImpl with(IConfiguration aConfiguration, IExporter anExporter){
+		return new JAXBTraceModelImpl(aConfiguration, anExporter);
+	}
+	
+	private JAXBTraceModelImpl(IConfiguration aConfiguration, IExporter anExporter) {
+		configuration=aConfiguration;
+		exporter=anExporter;
 		this.objectFactory = new ObjectFactory();
 		// is there an existing trace file
 		// yes
@@ -71,64 +82,44 @@ public class JAXBTraceModelImpl implements ITraceModel {
 		return currentTrace;
 	}
 
-	/* (non-Javadoc)
-	 * @see net.oemig.scta.tracer.model.ITraceModel#setCurrentTrace(net.oemig.scta.tracer.model.binding.Trace)
-	 */
-	@Override
-	public void setCurrentTrace(Trace currentTrace) {
+	private void setCurrentTrace(Trace currentTrace) {
 		this.currentTrace = currentTrace;
 	}
 
-	/* (non-Javadoc)
-	 * @see net.oemig.scta.tracer.model.ITraceModel#getCurrentSession()
-	 */
 	@Override
 	public Session getCurrentSession() {
 		return currentSession;
 	}
 
-	/* (non-Javadoc)
-	 * @see net.oemig.scta.tracer.model.ITraceModel#setCurrentSession(net.oemig.scta.tracer.model.binding.Trace.Session)
-	 */
-	@Override
-	public void setCurrentSession(Session currentSession) {
+	private void setCurrentSession(Session currentSession) {
 		this.currentSession = currentSession;
 	}
 
-	/* (non-Javadoc)
-	 * @see net.oemig.scta.tracer.model.ITraceModel#getCurrentRun()
-	 */
 	@Override
 	public Run getCurrentRun() {
 		return currentRun;
 	}
 
-	/* (non-Javadoc)
-	 * @see net.oemig.scta.tracer.model.ITraceModel#setCurrentRun(net.oemig.scta.tracer.model.binding.Trace.Session.Run)
-	 */
-	@Override
-	public void setCurrentRun(Run currentRun) {
+	private void setCurrentRun(Run currentRun) {
 		this.currentRun = currentRun;
 	}
 
-	/* (non-Javadoc)
-	 * @see net.oemig.scta.tracer.model.ITraceModel#addParticipant(java.lang.String)
-	 */
 	@Override
-	public void addParticipant(String name) {
+	public void addParticipant(final UserName name, final ExperiementId experimentId) {
 		Participant participant = objectFactory
 				.createTraceSessionRunParticipant();
-		participant.setName(name);
+		participant.setName(name.toString());
+		participant.setExperimentId(experimentId.toString());
 		getCurrentRun().getParticipant().add(participant);
 	}
 
-	/* (non-Javadoc)
-	 * @see net.oemig.scta.tracer.model.ITraceModel#addCountData(java.lang.String, java.lang.String, int)
-	 */
 	@Override
-	public void addCountData(String participantName, String letter, int quantity) {
+	public void addCountData(
+			final UserName participantName, 
+			final String letter, 
+			final int quantity) {
 		CountData countData = objectFactory.createTraceSessionRunCountData();
-		countData.setParticipant(participantName);
+		countData.setParticipant(participantName.toString());
 		countData.setLetter(letter);
 		countData.setQuantity(quantity);
 
@@ -136,18 +127,15 @@ public class JAXBTraceModelImpl implements ITraceModel {
 
 	}
 
-	/**
-	 * @see net.oemig.scta.tracer.model.ITraceModel#addResponseData(java.lang.String, boolean, int)
-	 */
 	@Override
 	public void addResponseData(
-			String participantName, 
-			boolean isCorrect,
-			int responseTime,
-			QuestionType questionType) {
+			final UserName participantName, 
+			final boolean isCorrect,
+			final int responseTime,
+			final QuestionType questionType) {
 		ResponseData responseData = this.objectFactory
 				.createTraceSessionRunResponseData();
-		responseData.setParticipant(participantName);
+		responseData.setParticipant(participantName.toString());
 		responseData.setCorrect(isCorrect);
 		responseData.setResponsetime(new Integer(responseTime));
 		responseData.setQuestionType(questionType.name());
@@ -158,7 +146,29 @@ public class JAXBTraceModelImpl implements ITraceModel {
 
 	@Override
 	public void save() {
-		JAXB.marshal(getCurrentTrace(), configuration.getTraceFileDirectory()+File.separator+TRACE_FILE_PREFIX+getCurrentTrace().getName()+".xml");		
+		JFileChooser fc=new JFileChooser();
+		fc.setDialogType(JFileChooser.SAVE_DIALOG);
+		int state=fc.showSaveDialog(null);
+		if(JFileChooser.APPROVE_OPTION==state){
+			JAXB.marshal(getCurrentTrace(), fc.getSelectedFile());
+		}
+		
+				
+	}
+	
+	@Override
+	public void export(){
+		exporter.export(this);
+	}
+	
+	public JAXBTraceModelImpl with(IExporter anExporter){
+		exporter=anExporter;
+		return this;
+	}
+	
+	public JAXBTraceModelImpl with(IConfiguration aConfiguration){
+		configuration=aConfiguration;
+		return this;
 	}
 
 }

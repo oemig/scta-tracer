@@ -22,6 +22,7 @@
 										<xs:element name="Participant" maxOccurs="unbounded">
 											<xs:complexType>
 												<xs:attribute name="Name" type="xs:string"/>
+												<xs:attribute name="ExperimentId" type="xs:string"/>
 											</xs:complexType>
 										</xs:element>
 										<xs:element name="CountData" minOccurs="0" maxOccurs="unbounded">

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import net.oemig.scta.tracer.data.UserName;
 import net.oemig.scta.tracer.model.binding.Trace.Session.Run.CountData;
 import net.oemig.scta.tracer.question.QuestionException;
 
@@ -36,11 +37,11 @@ public final class CountDataUtil {
 	 */
 	public static Collection<CountData> filterOthersCountData(
 			Collection<CountData> countData, 
-			final String userName) {
+			final UserName userName) {
 		return Collections2.filter(countData, new Predicate<CountData>() {
 			@Override
 			public boolean apply(CountData cd){
-				return !cd.getParticipant().equals(userName);
+				return !cd.getParticipant().equals(userName.toString());
 			}
 			
 		});
@@ -54,11 +55,11 @@ public final class CountDataUtil {
 	 */
 	public static Collection<CountData> filterMyCountData(
 			Collection<CountData> countData,
-			final String userName) {
+			final UserName userName) {
 		return Collections2.filter(countData, new Predicate<CountData>() {
 			@Override
 			public boolean apply(CountData cd){
-				return cd.getParticipant().equals(userName);
+				return cd.getParticipant().equals(userName.toString());
 			}
 			
 		});

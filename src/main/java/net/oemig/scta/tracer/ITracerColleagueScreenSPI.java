@@ -1,9 +1,10 @@
 package net.oemig.scta.tracer;
 
-import net.oemig.scta.tracer.util.Logger;
+import net.oemig.scta.tracer.data.UserName;
+import net.oemig.scta.tracer.log.impl.Logger;
 
 public interface ITracerColleagueScreenSPI {
-	public String getUserName();
+	public UserName getUserName();
 
 	public ITracerMediator getMediator();
 

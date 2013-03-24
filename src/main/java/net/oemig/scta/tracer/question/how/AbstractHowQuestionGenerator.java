@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import net.oemig.scta.tracer.data.UserName;
 import net.oemig.scta.tracer.evaluation.CountDataUtil;
 import net.oemig.scta.tracer.model.ITraceModel;
 import net.oemig.scta.tracer.model.binding.Trace.Session.Run.CountData;
@@ -17,10 +18,10 @@ import com.google.common.collect.Lists;
 public abstract class AbstractHowQuestionGenerator implements
 		IQuestionGenerator {
 
-	private String userName;
+	private UserName userName;
 	private ITraceModel model;
 
-	public AbstractHowQuestionGenerator(String newUserName, ITraceModel newModel) {
+	public AbstractHowQuestionGenerator(final UserName newUserName, ITraceModel newModel) {
 		this.userName = newUserName;
 		this.model = newModel;
 	}
@@ -61,13 +62,13 @@ public abstract class AbstractHowQuestionGenerator implements
 
 	public abstract Collection<CountData> getCountData();
 
-	public String getUserName() {
+	public UserName getUserName() {
 		return userName;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
+//	public void setUserName(UserName userName) {
+//		this.userName = userName;
+//	}
 
 	public ITraceModel getModel() {
 		return model;

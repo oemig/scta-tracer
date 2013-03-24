@@ -1,4 +1,4 @@
-package net.oemig.scta.tracer.util;
+package net.oemig.scta.tracer.log;
 
 public interface ILogListener {
 

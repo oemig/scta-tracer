@@ -1,9 +1,12 @@
-package net.oemig.scta.tracer.util;
+package net.oemig.scta.tracer.log.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Logger {
+import net.oemig.scta.tracer.log.ILog;
+import net.oemig.scta.tracer.log.ILogListener;
+
+public class Logger implements ILog{
 
 	List<ILogListener> listeners = new ArrayList<ILogListener>();
 

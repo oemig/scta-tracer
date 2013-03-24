@@ -26,14 +26,15 @@ import javax.swing.border.TitledBorder;
 
 import net.oemig.scta.tracer.IRegistrationListener;
 import net.oemig.scta.tracer.ITracerMediatorScreenSPI;
+import net.oemig.scta.tracer.data.UserName;
 import net.oemig.scta.tracer.evaluation.exception.ModelMissingException;
 import net.oemig.scta.tracer.evaluation.impl.SctaV1EvaluationImpl;
 import net.oemig.scta.tracer.exception.TracerException;
 import net.oemig.scta.tracer.jfreechart.SCTAItemLabelGenerator;
 import net.oemig.scta.tracer.jfreechart.SCTARenderer;
 import net.oemig.scta.tracer.jfreechart.data.DefaultSCTADataset;
+import net.oemig.scta.tracer.log.ILogListener;
 import net.oemig.scta.tracer.model.binding.Trace.Session.Run.Participant;
-import net.oemig.scta.tracer.util.ILogListener;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -82,7 +83,7 @@ public class AdministrationScreen implements IScreen {
 		JList userList = new javax.swing.JList();
 		final JToggleButton btnStartPauseRun = new javax.swing.JToggleButton();
 		JButton btnSave = new javax.swing.JButton();
-		JButton btnOpen = new javax.swing.JButton();
+		JButton btnExport = new javax.swing.JButton();
 		JLabel lblTraceName = new javax.swing.JLabel();
 		JLabel lblSessionName = new javax.swing.JLabel();
 
@@ -103,7 +104,7 @@ public class AdministrationScreen implements IScreen {
 			}
 		};
 
-		mediatorScreenSPI.getLog().addListener(logListener);
+		mediatorScreenSPI.getEnvironment().getLogger().addListener(logListener);
 
 		javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(
 				logPanel);
@@ -121,7 +122,7 @@ public class AdministrationScreen implements IScreen {
 				.createTitledBorder("Registered Users"));
 		// --
 		final DefaultListModel listModel = new DefaultListModel();
-		for (Participant p : this.mediatorScreenSPI.getTraceModel()
+		for (Participant p : this.mediatorScreenSPI.getEnvironment().getTraceModel()
 				.getCurrentRun().getParticipant()) {
 			listModel.addElement(p.getName());
 		}
@@ -130,9 +131,9 @@ public class AdministrationScreen implements IScreen {
 			@Override
 			public void update() {
 				listModel.clear();
-				for (String registeredUser : mediatorScreenSPI
+				for (UserName registeredUser : mediatorScreenSPI
 						.getRegisteredUsers()) {
-					listModel.addElement(registeredUser);
+					listModel.addElement(registeredUser.toString());
 				}
 			}
 
@@ -173,8 +174,8 @@ public class AdministrationScreen implements IScreen {
 						mediatorScreenSPI.startAssessmentRun(mediatorScreenSPI
 								.getUserName() + " started the assement run");
 					} catch (TracerException e1) {
-						mediatorScreenSPI
-								.getLog()
+						mediatorScreenSPI.getEnvironment()
+								.getLogger()
 								.log(getClass().getName()
 										+ ": Assessment run could not be started: "
 										+ e1.getStackTrace());
@@ -185,8 +186,8 @@ public class AdministrationScreen implements IScreen {
 						mediatorScreenSPI.stopAssessmentRun(mediatorScreenSPI
 								.getUserName() + " paused the assement run");
 					} catch (TracerException e1) {
-						mediatorScreenSPI
-								.getLog()
+						mediatorScreenSPI.getEnvironment()
+								.getLogger()
 								.log(getClass().getName()
 										+ ": Assessment run could not be stopped.");
 					}
@@ -198,25 +199,32 @@ public class AdministrationScreen implements IScreen {
 
 		btnSave.setText("Save");
 		ActionListener saveListener = new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				mediatorScreenSPI.getLog().log("Saving data to file.");
-				mediatorScreenSPI.getTraceModel().save();
+				mediatorScreenSPI.getEnvironment().getLogger().log("Saving data to file.");
+				mediatorScreenSPI.getEnvironment().getTraceModel().save();
 
 			}
 		};
 
 		btnSave.addActionListener(saveListener);
 
-		btnOpen.setText("Open");
+		btnExport.setText("Export");
+		ActionListener exportListener=new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				mediatorScreenSPI.getEnvironment().getLogger().log("Exporting data to file.");
+				mediatorScreenSPI.getEnvironment().getTraceModel().export();
+			}
+		};
+		btnExport.addActionListener(exportListener);
 
-		lblTraceName.setText(mediatorScreenSPI.getTraceModel()
+		lblTraceName.setText(mediatorScreenSPI.getEnvironment().getTraceModel()
 				.getCurrentTrace().getName());
 		lblTraceName.setBorder(javax.swing.BorderFactory
 				.createTitledBorder("Trace"));
 
-		lblSessionName.setText(mediatorScreenSPI.getTraceModel()
+		lblSessionName.setText(mediatorScreenSPI.getEnvironment().getTraceModel()
 				.getCurrentSession().getName());
 		lblSessionName.setBorder(javax.swing.BorderFactory
 				.createTitledBorder("Session"));
@@ -259,7 +267,7 @@ public class AdministrationScreen implements IScreen {
 																								.addPreferredGap(
 																										javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
 																								.addComponent(
-																										btnOpen,
+																										btnExport,
 																										javax.swing.GroupLayout.DEFAULT_SIZE,
 																										javax.swing.GroupLayout.DEFAULT_SIZE,
 																										Short.MAX_VALUE))
@@ -321,7 +329,7 @@ public class AdministrationScreen implements IScreen {
 																				.addComponent(
 																						btnSave)
 																				.addComponent(
-																						btnOpen))))
+																						btnExport))))
 								.addGap(18, 18, Short.MAX_VALUE)
 								.addComponent(logPanel,
 										javax.swing.GroupLayout.PREFERRED_SIZE,
@@ -373,7 +381,7 @@ public class AdministrationScreen implements IScreen {
 							.runEvaluation().getChart());
 					chartPanel.updateUI();
 				} catch (ModelMissingException e) {
-					mediatorScreenSPI.getLog().log(e.getLocalizedMessage());
+					mediatorScreenSPI.getEnvironment().getLogger().log(e.getLocalizedMessage());
 				}
 
 			}

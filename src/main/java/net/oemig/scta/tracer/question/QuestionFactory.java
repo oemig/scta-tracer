@@ -3,6 +3,7 @@ package net.oemig.scta.tracer.question;
 import java.util.Collections;
 import java.util.List;
 
+import net.oemig.scta.tracer.data.UserName;
 import net.oemig.scta.tracer.model.ITraceModel;
 import net.oemig.scta.tracer.question.how.GroupHowQuestionGenerator;
 import net.oemig.scta.tracer.question.how.IndividualHowQuestionGenerator;
@@ -28,7 +29,7 @@ public final class QuestionFactory {
 	private QuestionFactory() {
 	}
 
-	public static Question[] getMultiple(String userName, ITraceModel model) {
+	public static Question[] getMultiple(final UserName userName, ITraceModel model) {
 		List<IQuestionGenerator> generators = Lists.newArrayList();
 //		generators.add(new GroupHowQuestionGenerator(userName, model));
 		generators.add(new GroupWhoQuestionGenerator(userName, model));
