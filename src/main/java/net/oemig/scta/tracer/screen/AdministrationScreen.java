@@ -35,6 +35,7 @@ import net.oemig.scta.tracer.jfreechart.SCTARenderer;
 import net.oemig.scta.tracer.jfreechart.data.DefaultSCTADataset;
 import net.oemig.scta.tracer.log.ILogListener;
 import net.oemig.scta.tracer.model.binding.Trace.Session.Run.Participant;
+import net.oemig.scta.tracer.run.IAssessmentRunListener;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -45,15 +46,13 @@ import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.Range;
 import org.jfree.data.xy.XYDataset;
 
-public class AdministrationScreen implements IScreen {
+public class AdministrationScreen implements IScreen, IAssessmentRunListener {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -9169397434346157649L;
 
 	private ITracerMediatorScreenSPI mediatorScreenSPI;
 	private JFrame f;
+	final JToggleButton btnStartPauseRun = new javax.swing.JToggleButton();
 
 	public AdministrationScreen(ITracerMediatorScreenSPI mediatorImpl) {
 		this.mediatorScreenSPI = mediatorImpl;
@@ -81,7 +80,7 @@ public class AdministrationScreen implements IScreen {
 		JPanel userPanel = new javax.swing.JPanel();
 		JScrollPane jScrollPane3 = new javax.swing.JScrollPane();
 		JList userList = new javax.swing.JList();
-		final JToggleButton btnStartPauseRun = new javax.swing.JToggleButton();
+		
 		JButton btnSave = new javax.swing.JButton();
 		JButton btnExport = new javax.swing.JButton();
 		JLabel lblTraceName = new javax.swing.JLabel();
@@ -491,6 +490,17 @@ public class AdministrationScreen implements IScreen {
 	@Override
 	public void hide() {
 		f.setVisible(false);
+	}
+
+	@Override
+	public void doFreezeProbe() throws TracerException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void finishedRun() throws TracerException {
+		btnStartPauseRun.setText("Start Run");		
 	}
 
 }

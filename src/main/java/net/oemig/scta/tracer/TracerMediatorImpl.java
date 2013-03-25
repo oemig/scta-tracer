@@ -13,7 +13,6 @@ import net.oemig.scta.tracer.evaluation.IEvaluation;
 import net.oemig.scta.tracer.evaluation.exception.ModelMissingException;
 import net.oemig.scta.tracer.evaluation.impl.SctaV1EvaluationImpl;
 import net.oemig.scta.tracer.exception.TracerException;
-import net.oemig.scta.tracer.model.ITraceModel;
 import net.oemig.scta.tracer.question.Question;
 import net.oemig.scta.tracer.question.QuestionFactory;
 import net.oemig.scta.tracer.question.QuestionType;
@@ -36,7 +35,6 @@ public class TracerMediatorImpl implements ITracerMediator,
 	private HashSet<IRegistrationListener> registrationListeners;
 	private AssessmentRun assessmentRun;
 	private IScreen adminstrationScreen;
-	private ITraceModel traceModel;
 	private int colleaguesInFreezeProbe;
 	private IEvaluation evaluation;
 
@@ -60,6 +58,7 @@ public class TracerMediatorImpl implements ITracerMediator,
 
 		//TODO add screen as listener for assessment run to capture finish event
 		this.adminstrationScreen = new AdministrationScreen(this);
+		assessmentRun.addListener((IAssessmentRunListener)adminstrationScreen);
 
 		// after successful setup
 		// launch the administration screen
@@ -76,6 +75,8 @@ public class TracerMediatorImpl implements ITracerMediator,
 		envinronment.getLogger().log(getClass().getName() + ": " + userName + " registered.");
 		// store name and remote reference for later use
 		this.colleagueMap.put(userName, colleague);
+		
+		envinronment.getTraceModel().addParticipant(userName, anExperiementId);
 
 		// bring colleague to show the wait screen
 		colleague

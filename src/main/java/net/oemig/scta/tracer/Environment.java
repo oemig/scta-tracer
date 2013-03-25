@@ -22,7 +22,7 @@ public final class Environment {
 	
 	private Environment(){
 		configuration=new PropertyConfigurationImpl();
-		exporter=CsvExporterImpl.with(configuration);
+		exporter=CsvExporterImpl.getInstance();
 		model= JAXBTraceModelImpl.with(configuration, exporter);
 		logger=new Logger();
 	}

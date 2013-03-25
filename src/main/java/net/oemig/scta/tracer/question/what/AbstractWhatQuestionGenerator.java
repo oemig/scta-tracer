@@ -67,7 +67,7 @@ public abstract class AbstractWhatQuestionGenerator implements
 		
 		
 		//no shuffle necessary
-		return new Question("Where "+letter+" counted?",
+		return new Question("Where "+letter+"'s counted?",
 				answers.get(0),
 				answers.get(1),
 				"",

@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.swing.JFileChooser;
 
-import net.oemig.scta.tracer.configuration.IConfiguration;
 import net.oemig.scta.tracer.exporter.IExporter;
 import net.oemig.scta.tracer.model.ITraceModel;
 import net.oemig.scta.tracer.model.binding.Trace.Session;
@@ -18,14 +17,11 @@ import com.google.common.collect.Maps;
 
 public final class CsvExporterImpl implements IExporter {
 
-	public static CsvExporterImpl with(IConfiguration aConfiguration){
-		return new CsvExporterImpl(aConfiguration);
+	public static CsvExporterImpl getInstance(){
+		return new CsvExporterImpl();
 	}
 
-	private IConfiguration configuration;
-	
-	private CsvExporterImpl(IConfiguration aConfiguration){
-		configuration=aConfiguration;
+	private CsvExporterImpl(){
 	}
 	
 	
@@ -88,8 +84,8 @@ public final class CsvExporterImpl implements IExporter {
 			append(name).append(',').
 			append(experiementId).append(',').
 			append(correct.toString()).append(',').
-			append(time.toString()).append('\n').
-			append(questionType).append(',');
+			append(time.toString()).append(',').
+			append(questionType).append('\n');
 		
 	}
 
