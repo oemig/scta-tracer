@@ -30,9 +30,10 @@ import net.oemig.scta.tracer.data.UserName;
 import net.oemig.scta.tracer.evaluation.exception.ModelMissingException;
 import net.oemig.scta.tracer.evaluation.impl.SctaV1EvaluationImpl;
 import net.oemig.scta.tracer.exception.TracerException;
-import net.oemig.scta.tracer.jfreechart.SCTAItemLabelGenerator;
-import net.oemig.scta.tracer.jfreechart.SCTARenderer;
-import net.oemig.scta.tracer.jfreechart.data.DefaultSCTADataset;
+import net.oemig.scta.tracer.jfreechart.SctaItemLabelGenerator;
+import net.oemig.scta.tracer.jfreechart.SctaRenderer;
+import net.oemig.scta.tracer.jfreechart.SctaToolTipGenerator;
+import net.oemig.scta.tracer.jfreechart.data.DefaultSctaDataset;
 import net.oemig.scta.tracer.log.ILogListener;
 import net.oemig.scta.tracer.model.binding.Trace.Session.Run.Participant;
 import net.oemig.scta.tracer.run.IAssessmentRunListener;
@@ -352,7 +353,7 @@ public class AdministrationScreen implements IScreen, IAssessmentRunListener {
 
 		// FIXME this currently is a fake dataset.. should be replaced by one
 		// resulting from an evaluation of the trace model
-		final XYDataset emptyDataset = DefaultSCTADataset.getInstance(); // an
+		final XYDataset emptyDataset = DefaultSctaDataset.getInstance(); // an
 																			// empty
 		// data set
 
@@ -398,7 +399,7 @@ public class AdministrationScreen implements IScreen, IAssessmentRunListener {
 
 		chart.setBackgroundPaint(evaluationPanel.getBackground());
 
-		XYLineAndShapeRenderer renderer = new SCTARenderer();
+		XYLineAndShapeRenderer renderer = new SctaRenderer();
 
 		// background image
 		URL picURL = getClass().getResource("/background.gif");
@@ -417,7 +418,8 @@ public class AdministrationScreen implements IScreen, IAssessmentRunListener {
 		plot.getRangeAxis().setAutoRange(false);
 		plot.getRangeAxis().setRange(new Range(0, 100));
 
-		renderer.setBaseItemLabelGenerator(new SCTAItemLabelGenerator());
+		renderer.setBaseItemLabelGenerator(new SctaItemLabelGenerator());
+		renderer.setBaseToolTipGenerator(new SctaToolTipGenerator());
 		renderer.setBaseItemLabelsVisible(true);
 		renderer.setSeriesVisibleInLegend(0, false);
 

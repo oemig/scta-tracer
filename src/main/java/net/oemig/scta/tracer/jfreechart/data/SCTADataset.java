@@ -2,7 +2,7 @@ package net.oemig.scta.tracer.jfreechart.data;
 
 import org.jfree.data.xy.XYDataset;
 
-public interface SCTADataset extends XYDataset{
+public interface SctaDataset extends XYDataset{
 	
 	public Number getPerformance(int series, int item);
 	

@@ -2,21 +2,21 @@ package net.oemig.scta.tracer.evaluation;
 
 import java.util.Set;
 
-import net.oemig.scta.tracer.jfreechart.data.SCTADataset;
+import net.oemig.scta.tracer.jfreechart.data.SctaDataset;
 
 import org.jfree.chart.JFreeChart;
 
 public class EvaluationResult {
 
-	private SCTADataset dataset;
+	private SctaDataset dataset;
 
 	private Set<SessionResult> sessionResults;
 
-	public void setDataset(SCTADataset dataset) {
+	public void setDataset(SctaDataset dataset) {
 		this.dataset = dataset;
 	}
 
-	public SCTADataset getDataset() {
+	public SctaDataset getDataset() {
 		return dataset;
 	}
 

@@ -6,10 +6,10 @@ import net.oemig.scta.tracer.evaluation.EvaluationResultBuilder;
 import net.oemig.scta.tracer.evaluation.IEvaluation;
 import net.oemig.scta.tracer.evaluation.SessionResult;
 import net.oemig.scta.tracer.evaluation.exception.ModelMissingException;
-import net.oemig.scta.tracer.jfreechart.data.DefaultSCTADataset;
-import net.oemig.scta.tracer.jfreechart.data.SCTADataset;
-import net.oemig.scta.tracer.jfreechart.data.SCTADatasetItem;
-import net.oemig.scta.tracer.jfreechart.data.SCTADatasetSeries;
+import net.oemig.scta.tracer.jfreechart.data.DefaultSctaDataset;
+import net.oemig.scta.tracer.jfreechart.data.SctaDataset;
+import net.oemig.scta.tracer.jfreechart.data.SctaDatasetItem;
+import net.oemig.scta.tracer.jfreechart.data.SctaDatasetSeries;
 import net.oemig.scta.tracer.model.ITraceModel;
 import net.oemig.scta.tracer.model.binding.Trace.Session;
 
@@ -41,13 +41,13 @@ public class SctaV1EvaluationImpl implements IEvaluation {
 		return builder.withDataset(createSampleSCTADataset()).build();
 	}
 
-	private SCTADataset createSampleSCTADataset() {
-		DefaultSCTADataset d = DefaultSCTADataset.getInstance();
-		SCTADatasetSeries s = new SCTADatasetSeries("Trace");
+	private SctaDataset createSampleSCTADataset() {
+		DefaultSctaDataset d = DefaultSctaDataset.getInstance();
+		SctaDatasetSeries s = new SctaDatasetSeries("Trace");
 
-		s.add(new SCTADatasetItem("A0:Initial System", 88.0, 68.0, 0.5, 0.7));
-		s.add(new SCTADatasetItem("A1:Changed wording", 44.0, 50.0, 1.0, 1.3));
-		s.add(new SCTADatasetItem("A2:Improved display", 21.0, 19.0, 1.0, 2.2));
+		s.add(new SctaDatasetItem("A0:Initial System", 88.0, 68.0, 0.5, 0.7));
+		s.add(new SctaDatasetItem("A1:Changed wording", 44.0, 50.0, 1.0, 1.3));
+		s.add(new SctaDatasetItem("A2:Improved display", 21.0, 19.0, 1.0, 2.2));
 		d.addSeries(s);
 
 		return d;

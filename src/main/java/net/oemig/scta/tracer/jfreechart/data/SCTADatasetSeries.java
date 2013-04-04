@@ -5,21 +5,28 @@ import java.util.Arrays;
 import java.util.List;
 
 
-//practically speaking: this is a trace
-public class SCTADatasetSeries {
+/**
+ * A {@link SctaDatasetSeries} contains one or multiple
+ * {@link SctaDatasetItem} instances and corresponds to a
+ * SCTA trace.
+ * 
+ * @author christoph.oemig
+ *
+ */
+public class SctaDatasetSeries {
 	
 	//the trace name
 	private String name;
 	
 	//the sessions
-	private List<SCTADatasetItem> items;
+	private List<SctaDatasetItem> items;
 	
-	public SCTADatasetSeries(String newName){
-		this.items=new ArrayList<SCTADatasetItem>();
+	public SctaDatasetSeries(String newName){
+		this.items=new ArrayList<SctaDatasetItem>();
 		this.name=newName;
 	}
 	
-	public void add(SCTADatasetItem item){
+	public void add(SctaDatasetItem item){
 		this.items.add(item);
 	}
 	public String getName() {
@@ -29,10 +36,10 @@ public class SCTADatasetSeries {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public SCTADatasetItem[] getItems() {
-		return items.toArray(new SCTADatasetItem[items.size()]);
+	public SctaDatasetItem[] getItems() {
+		return items.toArray(new SctaDatasetItem[items.size()]);
 	}
-	public void setItems(SCTADatasetItem[] items) {
+	public void setItems(SctaDatasetItem[] items) {
 		this.items = Arrays.asList(items);
 	}
 

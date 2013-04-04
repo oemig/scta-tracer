@@ -9,8 +9,8 @@ import java.text.NumberFormat;
 
 import javax.imageio.ImageIO;
 
-import net.oemig.scta.tracer.jfreechart.SCTAItemLabelGenerator;
-import net.oemig.scta.tracer.jfreechart.SCTARenderer;
+import net.oemig.scta.tracer.jfreechart.SctaItemLabelGenerator;
+import net.oemig.scta.tracer.jfreechart.SctaRenderer;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -55,7 +55,7 @@ public class XYShapeRendererDemo extends ApplicationFrame {
             false
         );
 //        XYShapeRenderer renderer = new XYShapeRenderer();
-        SCTARenderer renderer=new SCTARenderer();
+        SctaRenderer renderer=new SctaRenderer();
         
         //Lower/upper bounds lets you set the max min values
         LookupPaintScale ps=new LookupPaintScale();
@@ -84,7 +84,7 @@ public class XYShapeRendererDemo extends ApplicationFrame {
         //item labels
         NumberFormat format = NumberFormat.getNumberInstance();
         format.setMaximumFractionDigits(2);
-        XYItemLabelGenerator generator = new SCTAItemLabelGenerator();
+        XYItemLabelGenerator generator = new SctaItemLabelGenerator();
 //            new StandardXYItemLabelGenerator(
 //                StandardXYItemLabelGenerator.DEFAULT_ITEM_LABEL_FORMAT,
 //                format, format);

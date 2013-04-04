@@ -1,14 +1,9 @@
 package net.oemig.jfreechart.example;
 
-import java.awt.Image;
-import java.io.IOException;
-import java.net.URL;
-
-import javax.imageio.ImageIO;
-
-import net.oemig.scta.tracer.jfreechart.SCTAItemLabelGenerator;
-import net.oemig.scta.tracer.jfreechart.SCTARenderer;
-import net.oemig.scta.tracer.jfreechart.data.SCTADataset;
+import net.oemig.scta.tracer.jfreechart.SctaItemLabelGenerator;
+import net.oemig.scta.tracer.jfreechart.SctaRenderer;
+import net.oemig.scta.tracer.jfreechart.data.SctaDataset;
+import net.oemig.scta.tracer.jfreechart.data.SctaDatasetBuilder;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -24,7 +19,9 @@ import org.jfree.ui.RefineryUtilities;
 /**
  * A simple demonstration of the {@link XYLineAndShapeRenderer} class.
  */
-public class SCTARendererDemo extends ApplicationFrame {
+public class SctaRendererDemo extends ApplicationFrame {
+
+	private static final long serialVersionUID = -6586841681409528443L;
 
 	/**
 	 * Constructs the demo application.
@@ -32,23 +29,23 @@ public class SCTARendererDemo extends ApplicationFrame {
 	 * @param title
 	 *            the frame title.
 	 */
-	public SCTARendererDemo(final String title) {
+	public SctaRendererDemo(final String title) {
 
 		super(title);
-		XYDataset dataset = createSCTADataset();
-		JFreeChart chart = ChartFactory.createXYLineChart(title, "X", "Y",
+		XYDataset dataset = createSCTADataset("tracy");
+		JFreeChart chart = ChartFactory.createXYLineChart(title, "Quickness","Successrate",
 				dataset, PlotOrientation.VERTICAL, true, false, false);
-		XYLineAndShapeRenderer renderer = new SCTARenderer();
+		XYLineAndShapeRenderer renderer = new SctaRenderer();
 
 		// background image
-		URL picURL = getClass().getResource("test.jpg");
-		try {
-			Image image = ImageIO.read(picURL);
-			chart.getPlot().setBackgroundImage(image);
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		URL picURL = getClass().getResource("test.jpg");
+//		try {
+//			Image image = ImageIO.read(picURL);
+//			chart.getPlot().setBackgroundImage(image);
+//
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 
 		XYPlot plot = (XYPlot) chart.getPlot();
 		plot.getDomainAxis().setAutoRange(false);
@@ -56,7 +53,7 @@ public class SCTARendererDemo extends ApplicationFrame {
 		plot.getRangeAxis().setAutoRange(false);
 		plot.getRangeAxis().setRange(new Range(0, 100));
 
-		renderer.setBaseItemLabelGenerator(new SCTAItemLabelGenerator());
+		renderer.setBaseItemLabelGenerator(new SctaItemLabelGenerator());
 		renderer.setBaseItemLabelsVisible(true);
 		renderer.setSeriesVisibleInLegend(0, false);
 
@@ -67,17 +64,20 @@ public class SCTARendererDemo extends ApplicationFrame {
 
 	}
 
-	private SCTADataset createSCTADataset() {
-		// DefaultSCTADataset d=new DefaultSCTADataset();
-		// SCTADatasetSeries s=new SCTADatasetSeries("Trace");
-		//
-		// s.add(new SCTADatasetItem("A0", 88.0, 68.0, 0.5, 2.0));
-		// s.add(new SCTADatasetItem("A1", 44.0, 50.0, 1.0, 1.0));
-		// s.add(new SCTADatasetItem("A2", 10.0, 11.0, 1.0, 1.0));
-		// d.addSeries(s);
-		//
-		// return d;
-		return null;
+	private SctaDataset createSCTADataset(String traceName) {
+//		 DefaultSCTADataset d=DefaultSCTADataset.getInstance();
+//		 SCTADatasetSeries s=new SCTADatasetSeries("Trace");
+//		
+//		 s.add(new SCTADatasetItem("A0", 88.0, 68.0, 0.5, 2.0));
+//		 s.add(new SCTADatasetItem("A1", 44.0, 50.0, 1.0, 1.0));
+//		 s.add(new SCTADatasetItem("A2", 10.0, 11.0, 1.0, 1.0));
+//		 d.addSeries(s);
+		return SctaDatasetBuilder.of(traceName).
+				addItemToSeries(traceName, "A0", 88.0, 68.0, 0.5, 2.0).
+				addItemToSeries(traceName, "A1", 44.0, 50.0, 1.0, 1.0).
+				addItemToSeries(traceName, "A2", 10.0, 11.0, 1.0, 1.0).
+				build();
+//		return null;
 	}
 
 	// ****************************************************************************
@@ -100,7 +100,7 @@ public class SCTARendererDemo extends ApplicationFrame {
 	 */
 	public static void main(final String[] args) {
 
-		final SCTARendererDemo demo = new SCTARendererDemo("SCTARenderer Demo");
+		final SctaRendererDemo demo = new SctaRendererDemo("SCTARenderer Demo");
 		demo.pack();
 		RefineryUtilities.centerFrameOnScreen(demo);
 		demo.setVisible(true);

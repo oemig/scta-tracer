@@ -14,7 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import net.oemig.scta.tracer.jfreechart.SCTAItemLabelGenerator;
+import net.oemig.scta.tracer.jfreechart.SctaItemLabelGenerator;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -142,7 +142,7 @@ public class LabelDemo extends JFrame {
         // label the points
         NumberFormat format = NumberFormat.getNumberInstance();
         format.setMaximumFractionDigits(2);
-        XYItemLabelGenerator generator = new SCTAItemLabelGenerator();
+        XYItemLabelGenerator generator = new SctaItemLabelGenerator();
 //            new StandardXYItemLabelGenerator(
 //                StandardXYItemLabelGenerator.DEFAULT_ITEM_LABEL_FORMAT,
 //                format, format);

@@ -6,8 +6,8 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
-import net.oemig.scta.tracer.jfreechart.SCTAItemLabelGenerator;
-import net.oemig.scta.tracer.jfreechart.SCTARenderer;
+import net.oemig.scta.tracer.jfreechart.SctaItemLabelGenerator;
+import net.oemig.scta.tracer.jfreechart.SctaRenderer;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -49,7 +49,7 @@ public class XYLineAndShapeRendererDemo extends ApplicationFrame {
             false
         );
 //        XYPlot plot = (XYPlot) chart.getPlot();
-        XYLineAndShapeRenderer renderer = new SCTARenderer();
+        XYLineAndShapeRenderer renderer = new SctaRenderer();
         
         //background image
       URL picURL = getClass().getResource("4i.gif");
@@ -60,7 +60,7 @@ public class XYLineAndShapeRendererDemo extends ApplicationFrame {
 			e.printStackTrace();
 		}
         
-        renderer.setBaseItemLabelGenerator(new SCTAItemLabelGenerator());
+        renderer.setBaseItemLabelGenerator(new SctaItemLabelGenerator());
         renderer.setBaseItemLabelsVisible(true);
         
         chart.getXYPlot().setRenderer(renderer);

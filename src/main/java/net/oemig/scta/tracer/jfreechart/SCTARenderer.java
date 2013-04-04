@@ -9,7 +9,7 @@ import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
-import net.oemig.scta.tracer.jfreechart.data.SCTADataset;
+import net.oemig.scta.tracer.jfreechart.data.SctaDataset;
 
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.entity.EntityCollection;
@@ -42,7 +42,7 @@ import org.jfree.util.ShapeUtilities;
  * 
  * @since 1.0.11
  */
-public class SCTARenderer extends XYLineAndShapeRenderer {
+public class SctaRenderer extends XYLineAndShapeRenderer {
 
 	/** Auto generated serial version id. */
 	private static final long serialVersionUID = 8320552104211173221L;
@@ -78,7 +78,7 @@ public class SCTARenderer extends XYLineAndShapeRenderer {
 	 * Creates a new <code>XYShapeRenderer</code> instance with default
 	 * attributes.
 	 */
-	public SCTARenderer() {
+	public SctaRenderer() {
 		this.paintScale = new LookupPaintScale();
 		this.paintScale.add(0.1, Color.RED);
 		this.paintScale.add(0.5, Color.YELLOW);
@@ -108,8 +108,8 @@ public class SCTARenderer extends XYLineAndShapeRenderer {
 	 */
 	protected Paint getPaint(XYDataset dataset, int series, int item) {
 		Paint p = null;
-		if (dataset instanceof SCTADataset) {
-			double z = ((SCTADataset) dataset).getCoordinationErrorRate(series, item).doubleValue();
+		if (dataset instanceof SctaDataset) {
+			double z = ((SctaDataset) dataset).getCoordinationErrorRate(series, item).doubleValue();
 			p = this.paintScale.getPaint(z);
 		} else {
 			if (this.useFillPaint) {
@@ -123,8 +123,8 @@ public class SCTARenderer extends XYLineAndShapeRenderer {
 
 	@Override
 	public Shape getItemShape(int series, int item) {
-		if (this.getPlot().getDataset() instanceof SCTADataset) {
-			double z = ((SCTADataset) this.getPlot().getDataset()).getPerformance(
+		if (this.getPlot().getDataset() instanceof SctaDataset) {
+			double z = ((SctaDataset) this.getPlot().getDataset()).getPerformance(
 					series, item).doubleValue();
 			return new Ellipse2D.Double(-(20 * z / 2), -(20 * z / 2), 20 * z,
 					20 * z);

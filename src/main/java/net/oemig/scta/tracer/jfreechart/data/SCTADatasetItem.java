@@ -1,6 +1,12 @@
 package net.oemig.scta.tracer.jfreechart.data;
 
-public class SCTADatasetItem {
+/**
+ * A {@link SctaDatasetItem} corresponds to a SCTA session.
+ * 
+ * @author christoph.oemig
+ *
+ */
+public class SctaDatasetItem {
 	
 	private String sessionName;
 	private double responseTimeHalfLifeOfAwarenessRatio;
@@ -8,7 +14,15 @@ public class SCTADatasetItem {
 	private double coordinationErrorRate;
 	private double performance;
 	
-	public SCTADatasetItem(String name, double responseTime, double errorRate, double coordinationErrorRate, double performance){
+	/**
+	 * Constructor
+	 * @param name - name of the sesseion
+	 * @param responseTime
+	 * @param errorRate
+	 * @param coordinationErrorRate
+	 * @param performance
+	 */
+	public SctaDatasetItem(String name, double responseTime, double errorRate, double coordinationErrorRate, double performance){
 		this.sessionName=name;
 		this.responseTimeHalfLifeOfAwarenessRatio=responseTime;
 		this.errorRate=errorRate;
@@ -48,7 +62,5 @@ public class SCTADatasetItem {
 	public void setSessionName(String sessionName) {
 		this.sessionName = sessionName;
 	}
-	
-	
 
 }

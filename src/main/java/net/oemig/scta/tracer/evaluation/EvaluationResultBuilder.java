@@ -1,6 +1,6 @@
 package net.oemig.scta.tracer.evaluation;
 
-import net.oemig.scta.tracer.jfreechart.data.SCTADataset;
+import net.oemig.scta.tracer.jfreechart.data.SctaDataset;
 
 public class EvaluationResultBuilder {
 
@@ -14,7 +14,7 @@ public class EvaluationResultBuilder {
 		e = new EvaluationResult();
 	}
 
-	public EvaluationResultBuilder withDataset(SCTADataset aDataset) {
+	public EvaluationResultBuilder withDataset(SctaDataset aDataset) {
 		e.setDataset(aDataset);
 		return this;
 	}

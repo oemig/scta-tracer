@@ -5,22 +5,36 @@ import java.util.List;
 
 import org.jfree.data.xy.AbstractXYDataset;
 
-public class DefaultSCTADataset extends AbstractXYDataset implements
-		SCTADataset {
+/**
+ * A {@link DefaultSctaDataset} instance implements the 
+ * {@link SctaDataset} interface and contains one or multiple
+ * {@link SctaDatasetSeries} instances which in turn contain one
+ * or multiple {@link SctaDatasetItem}.
+ * <p>
+ * Speaking in SCTA concepts a {@link DefaultSctaDataset} may contain
+ * one or multiple traces (=={@link SctaDatasetSeries} instances)
+ * 
+ * @author christoph.oemig
+ *
+ */
+public final class DefaultSctaDataset extends AbstractXYDataset implements
+		SctaDataset {
 
-	private List<SCTADatasetSeries> seriesList;
+	private static final long serialVersionUID = -5728241401997708083L;
+	private List<SctaDatasetSeries> seriesList;
 	private List<String> seriesKeys;
 
-	public static DefaultSCTADataset getInstance() {
-		return new DefaultSCTADataset();
+	public static DefaultSctaDataset getInstance() {
+		return new DefaultSctaDataset();
 	}
 
-	private DefaultSCTADataset() {
+	//private constructor
+	private DefaultSctaDataset() {
 		this.seriesKeys = new ArrayList<String>();
-		this.seriesList = new ArrayList<SCTADatasetSeries>();
+		this.seriesList = new ArrayList<SctaDatasetSeries>();
 	}
 
-	public void addSeries(SCTADatasetSeries series) {
+	public void addSeries(SctaDatasetSeries series) {
 		this.seriesList.add(series);
 		this.seriesKeys.add(series.getName());
 	}
