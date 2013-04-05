@@ -2,7 +2,7 @@ package net.oemig.scta.tracer.evaluation;
 
 import java.util.Set;
 
-import net.oemig.scta.tracer.jfreechart.data.SctaDataset;
+import net.oemig.scta.jfreechart.data.SctaDataset;
 
 import org.jfree.chart.JFreeChart;
 

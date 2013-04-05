@@ -6,10 +6,10 @@ import net.oemig.scta.tracer.evaluation.EvaluationResultBuilder;
 import net.oemig.scta.tracer.evaluation.IEvaluation;
 import net.oemig.scta.tracer.evaluation.SessionResult;
 import net.oemig.scta.tracer.evaluation.exception.ModelMissingException;
-import net.oemig.scta.tracer.jfreechart.data.DefaultSctaDataset;
-import net.oemig.scta.tracer.jfreechart.data.SctaDataset;
-import net.oemig.scta.tracer.jfreechart.data.SctaDatasetItem;
-import net.oemig.scta.tracer.jfreechart.data.SctaDatasetSeries;
+import net.oemig.scta.jfreechart.data.DefaultSctaDataset;
+import net.oemig.scta.jfreechart.data.SctaDataset;
+import net.oemig.scta.jfreechart.data.SctaDatasetItem;
+import net.oemig.scta.jfreechart.data.SctaDatasetSeries;
 import net.oemig.scta.tracer.model.ITraceModel;
 import net.oemig.scta.tracer.model.binding.Trace.Session;
 

@@ -1,6 +1,6 @@
 package net.oemig.scta.tracer.evaluation;
 
-import net.oemig.scta.tracer.jfreechart.data.SctaDataset;
+import net.oemig.scta.jfreechart.data.SctaDataset;
 
 public class EvaluationResultBuilder {
 
