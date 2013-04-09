@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import net.oemig.scta.tracer.data.UserName;
-import net.oemig.scta.tracer.model.binding.Trace.Session.Run.CountData;
+import net.oemig.scta.model.binding.Trace.Session.Run.CountData;
+import net.oemig.scta.model.data.UserName;
 import net.oemig.scta.tracer.question.QuestionException;
 
 import com.google.common.base.Predicate;

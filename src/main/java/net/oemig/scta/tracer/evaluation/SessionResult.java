@@ -1,11 +1,11 @@
 package net.oemig.scta.tracer.evaluation;
 
+import net.oemig.scta.model.binding.Trace.Session;
 import net.oemig.scta.tracer.configuration.IConfiguration;
 import net.oemig.scta.tracer.evaluation.kpi.AverageResponseTimeForgettingTimeRatio;
 import net.oemig.scta.tracer.evaluation.kpi.CoordinationErrorRate;
 import net.oemig.scta.tracer.evaluation.kpi.ErrorRate;
 import net.oemig.scta.tracer.evaluation.kpi.Performance;
-import net.oemig.scta.tracer.model.binding.Trace.Session;
 
 public class SessionResult {
 

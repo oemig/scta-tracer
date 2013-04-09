@@ -2,6 +2,8 @@ package net.oemig.scta.tracer.question;
 
 import java.io.Serializable;
 
+import net.oemig.scta.model.data.QuestionType;
+
 public class Question implements Serializable {
 
 	private static final long serialVersionUID = -3044284258835050020L;

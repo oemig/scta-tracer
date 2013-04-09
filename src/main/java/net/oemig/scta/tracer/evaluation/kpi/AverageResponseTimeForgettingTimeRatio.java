@@ -2,9 +2,9 @@ package net.oemig.scta.tracer.evaluation.kpi;
 
 import java.util.List;
 
+import net.oemig.scta.model.binding.Trace.Session.Run;
+import net.oemig.scta.model.binding.Trace.Session.Run.ResponseData;
 import net.oemig.scta.tracer.configuration.IConfiguration;
-import net.oemig.scta.tracer.model.binding.Trace.Session.Run;
-import net.oemig.scta.tracer.model.binding.Trace.Session.Run.ResponseData;
 
 public class AverageResponseTimeForgettingTimeRatio {
 

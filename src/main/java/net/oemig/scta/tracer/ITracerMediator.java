@@ -3,9 +3,9 @@ package net.oemig.scta.tracer;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import net.oemig.scta.tracer.data.ExperiementId;
-import net.oemig.scta.tracer.data.UserName;
-import net.oemig.scta.tracer.question.QuestionType;
+import net.oemig.scta.model.data.ExperiementId;
+import net.oemig.scta.model.data.QuestionType;
+import net.oemig.scta.model.data.UserName;
 
 /**
  * {@link ITracerMediator} is the central remote interface for the center

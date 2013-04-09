@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.oemig.scta.tracer.model.binding.Trace.Session.Run;
-import net.oemig.scta.tracer.model.binding.Trace.Session.Run.CountData;
+import net.oemig.scta.model.binding.Trace.Session.Run;
+import net.oemig.scta.model.binding.Trace.Session.Run.CountData;
 
 public class CoordinationErrorRate {
 

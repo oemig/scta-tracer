@@ -24,18 +24,18 @@ import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.border.TitledBorder;
 
-import net.oemig.scta.tracer.IRegistrationListener;
-import net.oemig.scta.tracer.ITracerMediatorScreenSPI;
-import net.oemig.scta.tracer.data.UserName;
-import net.oemig.scta.tracer.evaluation.exception.ModelMissingException;
-import net.oemig.scta.tracer.evaluation.impl.SctaV1EvaluationImpl;
-import net.oemig.scta.tracer.exception.TracerException;
 import net.oemig.scta.jfreechart.SctaItemLabelGenerator;
 import net.oemig.scta.jfreechart.SctaRenderer;
 import net.oemig.scta.jfreechart.SctaToolTipGenerator;
 import net.oemig.scta.jfreechart.data.DefaultSctaDataset;
+import net.oemig.scta.model.binding.Trace.Session.Run.Participant;
+import net.oemig.scta.model.data.UserName;
+import net.oemig.scta.tracer.IRegistrationListener;
+import net.oemig.scta.tracer.ITracerMediatorScreenSPI;
+import net.oemig.scta.tracer.evaluation.exception.ModelMissingException;
+import net.oemig.scta.tracer.evaluation.impl.SctaV1EvaluationImpl;
+import net.oemig.scta.tracer.exception.TracerException;
 import net.oemig.scta.tracer.log.ILogListener;
-import net.oemig.scta.tracer.model.binding.Trace.Session.Run.Participant;
 import net.oemig.scta.tracer.run.IAssessmentRunListener;
 
 import org.jfree.chart.ChartFactory;

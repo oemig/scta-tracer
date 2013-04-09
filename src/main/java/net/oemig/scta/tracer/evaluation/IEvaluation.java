@@ -1,8 +1,8 @@
 package net.oemig.scta.tracer.evaluation;
 
+import net.oemig.scta.model.ITraceModel;
 import net.oemig.scta.tracer.configuration.IConfiguration;
 import net.oemig.scta.tracer.evaluation.exception.ModelMissingException;
-import net.oemig.scta.tracer.model.ITraceModel;
 
 /**
  * Standard interface for evaluations. There may be serveral differnt evaluation

@@ -6,8 +6,9 @@ import java.util.Map;
 
 import javax.swing.JOptionPane;
 
-import net.oemig.scta.tracer.data.ExperiementId;
-import net.oemig.scta.tracer.data.UserName;
+import net.oemig.scta.model.data.ExperiementId;
+import net.oemig.scta.model.data.QuestionType;
+import net.oemig.scta.model.data.UserName;
 import net.oemig.scta.tracer.evaluation.EvaluationResult;
 import net.oemig.scta.tracer.evaluation.IEvaluation;
 import net.oemig.scta.tracer.evaluation.exception.ModelMissingException;
@@ -15,7 +16,6 @@ import net.oemig.scta.tracer.evaluation.impl.SctaV1EvaluationImpl;
 import net.oemig.scta.tracer.exception.TracerException;
 import net.oemig.scta.tracer.question.Question;
 import net.oemig.scta.tracer.question.QuestionFactory;
-import net.oemig.scta.tracer.question.QuestionType;
 import net.oemig.scta.tracer.run.AssessmentRun;
 import net.oemig.scta.tracer.run.IAssessmentRunListener;
 import net.oemig.scta.tracer.screen.AdministrationScreen;

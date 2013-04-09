@@ -6,8 +6,8 @@ import java.rmi.server.UnicastRemoteObject;
 
 import javax.swing.JOptionPane;
 
-import net.oemig.scta.tracer.data.ExperiementId;
-import net.oemig.scta.tracer.data.UserName;
+import net.oemig.scta.model.data.ExperiementId;
+import net.oemig.scta.model.data.UserName;
 import net.oemig.scta.tracer.log.impl.Logger;
 import net.oemig.scta.tracer.question.Question;
 import net.oemig.scta.tracer.run.Document;

@@ -3,8 +3,8 @@ package net.oemig.scta.tracer.question;
 import java.util.Collections;
 import java.util.List;
 
-import net.oemig.scta.tracer.data.UserName;
-import net.oemig.scta.tracer.model.ITraceModel;
+import net.oemig.scta.model.ITraceModel;
+import net.oemig.scta.model.data.UserName;
 import net.oemig.scta.tracer.question.how.GroupHowQuestionGenerator;
 import net.oemig.scta.tracer.question.how.IndividualHowQuestionGenerator;
 import net.oemig.scta.tracer.question.what.GroupWhatQuestionGenerator;

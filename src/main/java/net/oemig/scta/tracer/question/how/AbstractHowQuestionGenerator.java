@@ -4,14 +4,14 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import net.oemig.scta.tracer.data.UserName;
+import net.oemig.scta.model.ITraceModel;
+import net.oemig.scta.model.binding.Trace.Session.Run.CountData;
+import net.oemig.scta.model.data.QuestionType;
+import net.oemig.scta.model.data.UserName;
 import net.oemig.scta.tracer.evaluation.CountDataUtil;
-import net.oemig.scta.tracer.model.ITraceModel;
-import net.oemig.scta.tracer.model.binding.Trace.Session.Run.CountData;
 import net.oemig.scta.tracer.question.IQuestionGenerator;
 import net.oemig.scta.tracer.question.Question;
 import net.oemig.scta.tracer.question.QuestionException;
-import net.oemig.scta.tracer.question.QuestionType;
 
 import com.google.common.collect.Lists;
 
