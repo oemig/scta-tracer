@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.swing.Timer;
 
+import net.oemig.scta.model.data.Millisecond;
 import net.oemig.scta.tracer.configuration.IConfiguration;
 import net.oemig.scta.tracer.exception.TracerException;
 import net.oemig.scta.tracer.question.Question;
@@ -40,8 +41,8 @@ public class AssessmentRun {
 		this.document = Document.getInstance(this.configuration);
 
 		// setup internal timer
-		int runDurationInMillis = this.configuration.getRunDuration() * 1000;
-		int millisBetweenFreezeProbes = runDurationInMillis
+		Millisecond runDurationInMillis = this.configuration.getRunDuration();
+		int millisBetweenFreezeProbes = runDurationInMillis.intValue()
 				/ this.configuration.getFreezeProbesPerRun();
 
 		ActionListener taskPerformer = new ActionListener() {

@@ -1,12 +1,13 @@
 package net.oemig.scta.tracer.configuration;
 
+import net.oemig.scta.model.data.Millisecond;
 import net.oemig.scta.tracer.exception.TracerException;
 
 public interface IConfiguration {
 
-	public abstract int getForgettingTime();
+	public abstract Millisecond getForgettingTime();
 
-	public abstract void setForgettingTime(int t);
+	public abstract void setForgettingTime(Millisecond t);
 
 	public abstract int getLettersPerWord();
 
@@ -24,9 +25,9 @@ public interface IConfiguration {
 
 	public abstract void setFreezeProbesPerRun(int f);
 
-	public abstract int getRunDuration();
+	public abstract Millisecond getRunDuration();
 
-	public abstract void setRunDuration(int d);
+	public abstract void setRunDuration(Millisecond d);
 
 	public abstract String getTraceFileDirectory();
 

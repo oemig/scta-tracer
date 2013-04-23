@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import net.oemig.scta.model.ICountData;
 import net.oemig.scta.model.binding.Trace.Session.Run.CountData;
 import net.oemig.scta.model.data.UserName;
 import net.oemig.scta.tracer.question.QuestionException;
@@ -35,12 +36,12 @@ public final class CountDataUtil {
 	 * @param userName - name of the user we do not seek count data of
 	 * @return 
 	 */
-	public static Collection<CountData> filterOthersCountData(
-			Collection<CountData> countData, 
+	public static Collection<ICountData> filterOthersCountData(
+			Collection<ICountData> countData, 
 			final UserName userName) {
-		return Collections2.filter(countData, new Predicate<CountData>() {
+		return Collections2.filter(countData, new Predicate<ICountData>() {
 			@Override
-			public boolean apply(CountData cd){
+			public boolean apply(ICountData cd){
 				return !cd.getParticipant().equals(userName.toString());
 			}
 			
@@ -53,12 +54,12 @@ public final class CountDataUtil {
 	 * @param userName
 	 * @return
 	 */
-	public static Collection<CountData> filterMyCountData(
-			Collection<CountData> countData,
+	public static Collection<ICountData> filterMyCountData(
+			Collection<ICountData> countData,
 			final UserName userName) {
-		return Collections2.filter(countData, new Predicate<CountData>() {
+		return Collections2.filter(countData, new Predicate<ICountData>() {
 			@Override
-			public boolean apply(CountData cd){
+			public boolean apply(ICountData cd){
 				return cd.getParticipant().equals(userName.toString());
 			}
 			
@@ -72,7 +73,7 @@ public final class CountDataUtil {
 	 * @return
 	 * @throws QuestionException
 	 */
-	public static CountData random(Collection<CountData> countData)
+	public static ICountData random(Collection<ICountData> countData)
 			throws QuestionException {
 
 		Random randomGenerator = new Random();
@@ -93,7 +94,7 @@ public final class CountDataUtil {
 	 * @param countData - counted letters by users
 	 * @return
 	 */
-	public static List<String> getUncountedLetters(Collection<CountData> countDatas) {
+	public static List<String> getUncountedLetters(Collection<ICountData> countDatas) {
 
 		Set<String> counted = getCountedLetters(countDatas);
 		List<String> uncounted = Lists.newArrayList();
@@ -128,9 +129,9 @@ public final class CountDataUtil {
 	 * @param countDatas
 	 * @return
 	 */
-	public static Set<String> getCountedLetters(Collection<CountData>countDatas){
+	public static Set<String> getCountedLetters(Collection<ICountData>countDatas){
 		Set<String> counted = Sets.newHashSet();
-		for (CountData c : countDatas) {
+		for (ICountData c : countDatas) {
 			counted.add(c.getLetter());
 		}
 		return counted;

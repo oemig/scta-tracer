@@ -2,8 +2,8 @@ package net.oemig.scta.tracer.question.how;
 
 import java.util.Collection;
 
+import net.oemig.scta.model.ICountData;
 import net.oemig.scta.model.ITraceModel;
-import net.oemig.scta.model.binding.Trace.Session.Run.CountData;
 import net.oemig.scta.model.data.QuestionType;
 import net.oemig.scta.model.data.UserName;
 import net.oemig.scta.tracer.evaluation.CountDataUtil;
@@ -22,7 +22,7 @@ public class IndividualHowQuestionGenerator extends
 	}
 
 	@Override
-	public Collection<CountData> getCountData() {
+	public Collection<ICountData> getCountData() {
 		return CountDataUtil.filterMyCountData(getModel().getCurrentRun()
 				.getCountData(), getUserName());
 	}

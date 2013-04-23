@@ -4,13 +4,13 @@ import net.oemig.scta.jfreechart.data.DefaultSctaDataset;
 import net.oemig.scta.jfreechart.data.SctaDataset;
 import net.oemig.scta.jfreechart.data.SctaDatasetItem;
 import net.oemig.scta.jfreechart.data.SctaDatasetSeries;
+import net.oemig.scta.model.ISession;
 import net.oemig.scta.model.ITraceModel;
-import net.oemig.scta.model.binding.Trace.Session;
+import net.oemig.scta.model.kpi.result.KpiResult;
 import net.oemig.scta.tracer.configuration.IConfiguration;
 import net.oemig.scta.tracer.evaluation.EvaluationResult;
 import net.oemig.scta.tracer.evaluation.EvaluationResultBuilder;
 import net.oemig.scta.tracer.evaluation.IEvaluation;
-import net.oemig.scta.tracer.evaluation.SessionResult;
 import net.oemig.scta.tracer.evaluation.exception.ModelMissingException;
 
 public class SctaV1EvaluationImpl implements IEvaluation {
@@ -34,8 +34,8 @@ public class SctaV1EvaluationImpl implements IEvaluation {
 
 		EvaluationResultBuilder builder = EvaluationResultBuilder.getInstance();
 
-		for (Session s : aModel.getCurrentTrace().getSession()) {
-			builder.add(SessionResult.getInstance(s, configuration));
+		for (ISession s : aModel.getCurrentTrace().getSessions()) {
+			builder.add(KpiResult.getInstance(s.getName(),s.getRuns(), configuration.getRunDuration(),configuration.getForgettingTime()));
 		}
 
 		return builder.withDataset(createSampleSCTADataset()).build();

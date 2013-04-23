@@ -28,7 +28,7 @@ import net.oemig.scta.jfreechart.SctaItemLabelGenerator;
 import net.oemig.scta.jfreechart.SctaRenderer;
 import net.oemig.scta.jfreechart.SctaToolTipGenerator;
 import net.oemig.scta.jfreechart.data.DefaultSctaDataset;
-import net.oemig.scta.model.binding.Trace.Session.Run.Participant;
+import net.oemig.scta.model.IParticipant;
 import net.oemig.scta.model.data.UserName;
 import net.oemig.scta.tracer.IRegistrationListener;
 import net.oemig.scta.tracer.ITracerMediatorScreenSPI;
@@ -122,8 +122,8 @@ public class AdministrationScreen implements IScreen, IAssessmentRunListener {
 				.createTitledBorder("Registered Users"));
 		// --
 		final DefaultListModel listModel = new DefaultListModel();
-		for (Participant p : this.mediatorScreenSPI.getEnvironment().getTraceModel()
-				.getCurrentRun().getParticipant()) {
+		for (IParticipant p : this.mediatorScreenSPI.getEnvironment().getTraceModel()
+				.getCurrentRun().getParticipants()) {
 			listModel.addElement(p.getName());
 		}
 

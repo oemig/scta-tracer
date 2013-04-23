@@ -1,6 +1,7 @@
 package net.oemig.scta.tracer.evaluation;
 
 import net.oemig.scta.jfreechart.data.SctaDataset;
+import net.oemig.scta.model.kpi.result.KpiResult;
 
 public class EvaluationResultBuilder {
 
@@ -19,7 +20,7 @@ public class EvaluationResultBuilder {
 		return this;
 	}
 
-	public EvaluationResultBuilder add(SessionResult aSessionResult) {
+	public EvaluationResultBuilder add(KpiResult aSessionResult) {
 		e.getSessionResults().add(aSessionResult);
 		return this;
 	}

@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import net.oemig.scta.model.ICountData;
 import net.oemig.scta.model.ITraceModel;
-import net.oemig.scta.model.binding.Trace.Session.Run.CountData;
 import net.oemig.scta.model.data.QuestionType;
 import net.oemig.scta.model.data.UserName;
 import net.oemig.scta.tracer.evaluation.CountDataUtil;
@@ -36,10 +36,10 @@ public abstract class AbstractHowQuestionGenerator implements
 		String correct;
 		try {
 			// get the "others" data
-			CountData cd = CountDataUtil.random(getCountData());
-			answers.add(cd.getQuantity().toString());
+			ICountData cd = CountDataUtil.random(getCountData());
+			answers.add(Integer.toString(cd.getQuantity()));
 			letter = cd.getLetter();
-			correct = cd.getQuantity().toString();
+			correct = Integer.toString(cd.getQuantity());
 		} catch (QuestionException qe) {
 			// otherwise select uncounted letters.. since nobody counted these
 			List<String> uncountedLetters = CountDataUtil
@@ -60,7 +60,7 @@ public abstract class AbstractHowQuestionGenerator implements
 
 	public abstract QuestionType getType();
 
-	public abstract Collection<CountData> getCountData();
+	public abstract Collection<ICountData> getCountData();
 
 	public UserName getUserName() {
 		return userName;

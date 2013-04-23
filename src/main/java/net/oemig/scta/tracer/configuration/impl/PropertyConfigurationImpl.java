@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import net.oemig.scta.model.data.Millisecond;
 import net.oemig.scta.tracer.configuration.IConfiguration;
 import net.oemig.scta.tracer.exception.TracerException;
 
@@ -39,18 +40,18 @@ public class PropertyConfigurationImpl implements IConfiguration {
 	 * @see net.oemig.scta.tracer.configuration.IConfiguration#getForgettingTime()
 	 */
 	@Override
-	public int getForgettingTime() {
-		return Integer.parseInt(this.applicationProperties
-				.getProperty(FORGETTING_TIME));
+	public Millisecond getForgettingTime() {
+		return Millisecond.of(Integer.parseInt(this.applicationProperties
+				.getProperty(FORGETTING_TIME)));
 	}
 
 	/* (non-Javadoc)
 	 * @see net.oemig.scta.tracer.configuration.IConfiguration#setForgettingTime(int)
 	 */
 	@Override
-	public void setForgettingTime(int t) {
+	public void setForgettingTime(Millisecond t) {
 		this.applicationProperties.setProperty(FORGETTING_TIME,
-				Integer.toString(t));
+				Integer.toString(t.intValue()));
 	}
 
 	/* (non-Javadoc)
@@ -129,18 +130,18 @@ public class PropertyConfigurationImpl implements IConfiguration {
 	 * @see net.oemig.scta.tracer.configuration.IConfiguration#getRunDuration()
 	 */
 	@Override
-	public int getRunDuration() {
-		return Integer.parseInt(this.applicationProperties
-				.getProperty(RUN_DURATION));
+	public Millisecond getRunDuration() {
+		return Millisecond.of(Integer.parseInt(this.applicationProperties
+				.getProperty(RUN_DURATION)));
 	}
 
 	/* (non-Javadoc)
 	 * @see net.oemig.scta.tracer.configuration.IConfiguration#setRunDuration(int)
 	 */
 	@Override
-	public void setRunDuration(int d) {
+	public void setRunDuration(Millisecond d) {
 		this.applicationProperties.setProperty(RUN_DURATION,
-				Integer.toString(d));
+				Integer.toString(d.intValue()));
 	}
 
 	/* (non-Javadoc)

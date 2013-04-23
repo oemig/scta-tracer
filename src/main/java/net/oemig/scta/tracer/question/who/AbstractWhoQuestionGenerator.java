@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import net.oemig.scta.model.ICountData;
 import net.oemig.scta.model.ITraceModel;
-import net.oemig.scta.model.binding.Trace.Session.Run.CountData;
 import net.oemig.scta.model.data.QuestionType;
 import net.oemig.scta.model.data.UserName;
 import net.oemig.scta.tracer.evaluation.CountDataUtil;
@@ -42,7 +42,7 @@ public abstract class AbstractWhoQuestionGenerator implements
 		String correct;
 		try {
 			// get the "others" data
-			CountData cd = CountDataUtil.random(getCountData());
+			ICountData cd = CountDataUtil.random(getCountData());
 			letter = cd.getLetter();
 			correct = cd.getParticipant();
 			answers.add(cd.getParticipant());
@@ -65,7 +65,7 @@ public abstract class AbstractWhoQuestionGenerator implements
 
 	public abstract QuestionType getType();
 
-	public abstract Collection<CountData> getCountData();
+	public abstract Collection<ICountData> getCountData();
 
 	public UserName getUserName() {
 		return userName;

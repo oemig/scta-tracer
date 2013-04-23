@@ -3,8 +3,8 @@ package net.oemig.scta.tracer.question.what;
 import java.util.Collection;
 import java.util.List;
 
+import net.oemig.scta.model.ICountData;
 import net.oemig.scta.model.ITraceModel;
-import net.oemig.scta.model.binding.Trace.Session.Run.CountData;
 import net.oemig.scta.model.data.QuestionType;
 import net.oemig.scta.model.data.UserName;
 import net.oemig.scta.tracer.evaluation.CountDataUtil;
@@ -50,7 +50,7 @@ public abstract class AbstractWhatQuestionGenerator implements
 		if(1==CountDataUtil.getRandomNumber(1)){
 			//proceed with counted
 			try {
-				CountData cd=CountDataUtil.random(getCountData());
+				ICountData cd=CountDataUtil.random(getCountData());
 				letter=cd.getLetter();
 				correct="ja";
 			} catch (QuestionException e) {
@@ -76,7 +76,7 @@ public abstract class AbstractWhatQuestionGenerator implements
 	}
 	
 	public abstract QuestionType getType();
-	public abstract Collection<CountData> getCountData();
+	public abstract Collection<ICountData> getCountData();
 
 	public UserName getUserName() {
 		return userName;
