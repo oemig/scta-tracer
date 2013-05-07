@@ -1,6 +1,7 @@
 package net.oemig.scta.tracer.evaluation;
 
 import net.oemig.scta.model.ITraceModel;
+import net.oemig.scta.model.exception.ResponseDataMissingException;
 import net.oemig.scta.tracer.configuration.IConfiguration;
 import net.oemig.scta.tracer.evaluation.exception.ModelMissingException;
 
@@ -18,9 +19,10 @@ public interface IEvaluation {
 	 * 
 	 * @return
 	 * @throws ModelMissingException
+	 * @throws ResponseDataMissingException 
 	 */
 	public EvaluationResult run(ITraceModel aModel)
-			throws ModelMissingException;
+			throws ModelMissingException, ResponseDataMissingException;
 
 	public IEvaluation with(IConfiguration aConfiguration);
 }

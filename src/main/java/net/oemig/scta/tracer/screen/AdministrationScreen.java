@@ -30,6 +30,7 @@ import net.oemig.scta.jfreechart.SctaToolTipGenerator;
 import net.oemig.scta.jfreechart.data.DefaultSctaDataset;
 import net.oemig.scta.model.IParticipant;
 import net.oemig.scta.model.data.UserName;
+import net.oemig.scta.model.exception.ResponseDataMissingException;
 import net.oemig.scta.tracer.IRegistrationListener;
 import net.oemig.scta.tracer.ITracerMediatorScreenSPI;
 import net.oemig.scta.tracer.evaluation.exception.ModelMissingException;
@@ -381,6 +382,8 @@ public class AdministrationScreen implements IScreen, IAssessmentRunListener {
 							.runEvaluation().getChart());
 					chartPanel.updateUI();
 				} catch (ModelMissingException e) {
+					mediatorScreenSPI.getEnvironment().getLogger().log(e.getLocalizedMessage());
+				} catch (ResponseDataMissingException e) {
 					mediatorScreenSPI.getEnvironment().getLogger().log(e.getLocalizedMessage());
 				}
 

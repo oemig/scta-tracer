@@ -1,6 +1,7 @@
 package net.oemig.scta.tracer;
 
 import net.oemig.scta.model.data.UserName;
+import net.oemig.scta.model.exception.ResponseDataMissingException;
 import net.oemig.scta.tracer.evaluation.EvaluationResult;
 import net.oemig.scta.tracer.evaluation.IEvaluation;
 import net.oemig.scta.tracer.evaluation.exception.ModelMissingException;
@@ -23,6 +24,6 @@ public interface ITracerMediatorScreenSPI {
 
 	public ITracerMediatorScreenSPI with(IEvaluation anEvaluation);
 
-	public EvaluationResult runEvaluation() throws ModelMissingException;
+	public EvaluationResult runEvaluation() throws ModelMissingException, ResponseDataMissingException;
 
 }

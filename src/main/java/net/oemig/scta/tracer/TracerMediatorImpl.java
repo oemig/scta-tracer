@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import net.oemig.scta.model.data.ExperiementId;
 import net.oemig.scta.model.data.QuestionType;
 import net.oemig.scta.model.data.UserName;
+import net.oemig.scta.model.exception.ResponseDataMissingException;
 import net.oemig.scta.tracer.evaluation.EvaluationResult;
 import net.oemig.scta.tracer.evaluation.IEvaluation;
 import net.oemig.scta.tracer.evaluation.exception.ModelMissingException;
@@ -261,7 +262,7 @@ public class TracerMediatorImpl implements ITracerMediator,
 	}
 
 	@Override
-	public EvaluationResult runEvaluation() throws ModelMissingException {
+	public EvaluationResult runEvaluation() throws ModelMissingException, ResponseDataMissingException {
 		if (null == evaluation) {
 			// use the default if nothing else
 			// is specified

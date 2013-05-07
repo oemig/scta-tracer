@@ -6,6 +6,7 @@ import net.oemig.scta.jfreechart.data.SctaDatasetItem;
 import net.oemig.scta.jfreechart.data.SctaDatasetSeries;
 import net.oemig.scta.model.ISession;
 import net.oemig.scta.model.ITraceModel;
+import net.oemig.scta.model.exception.ResponseDataMissingException;
 import net.oemig.scta.model.kpi.result.KpiResult;
 import net.oemig.scta.tracer.configuration.IConfiguration;
 import net.oemig.scta.tracer.evaluation.EvaluationResult;
@@ -27,7 +28,7 @@ public class SctaV1EvaluationImpl implements IEvaluation {
 
 	@Override
 	public EvaluationResult run(ITraceModel aModel)
-			throws ModelMissingException {
+			throws ModelMissingException, ResponseDataMissingException {
 		if (null == aModel) {
 			throw new ModelMissingException("model is null");
 		}

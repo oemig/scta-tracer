@@ -3,7 +3,7 @@ package net.oemig.scta.tracer;
 import net.oemig.scta.model.ITraceModel;
 import net.oemig.scta.model.exporter.IExporter;
 import net.oemig.scta.model.exporter.impl.CsvExporterImpl;
-import net.oemig.scta.model.impl.JAXBTraceModelImpl;
+import net.oemig.scta.model.impl.jaxb.JAXBTraceModelImpl;
 import net.oemig.scta.tracer.configuration.IConfiguration;
 import net.oemig.scta.tracer.configuration.impl.PropertyConfigurationImpl;
 import net.oemig.scta.tracer.log.ILog;
