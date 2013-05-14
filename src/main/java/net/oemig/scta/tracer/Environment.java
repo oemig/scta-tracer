@@ -11,19 +11,24 @@ import net.oemig.scta.tracer.log.impl.Logger;
 
 public final class Environment {
 	
-	public static Environment getInstance(){
-		return new Environment();
+	public static Environment create(
+			final String aTraceName, 
+			final String aSessionName){
+		
+		return new Environment(aTraceName,aSessionName);
 	}
 
 	private IConfiguration configuration;
 	private CsvExporterImpl exporter;
-	private JAXBTraceModelImpl model;
-	private Logger logger;
+	private ITraceModel model;
+	private ILog logger;
 	
-	private Environment(){
+	private Environment(final String aTraceName, final String aSessionName){
 		configuration=new PropertyConfigurationImpl();
-		exporter=CsvExporterImpl.getInstance();
-		model= JAXBTraceModelImpl.with("c:\\scta-traces", exporter);
+		exporter=CsvExporterImpl.create();
+		
+		//this decides on using JAXB for the model
+		model= JAXBTraceModelImpl.create(aTraceName,aSessionName,"c:\\scta-traces", exporter);
 		logger=new Logger();
 	}
 
@@ -41,6 +46,21 @@ public final class Environment {
 	
 	public ITraceModel getTraceModel(){
 		return model;
+	}
+	
+	public Environment with(ITraceModel aTraceModel){
+		model=aTraceModel;
+		return this;
+	}
+	
+	public Environment with(IConfiguration aConfiguration){
+		configuration=aConfiguration;
+		return this;
+	}
+	
+	public Environment with(ILog aLog){
+		logger=aLog;
+		return this;
 	}
 	
 }

@@ -44,8 +44,8 @@ public abstract class AbstractWhoQuestionGenerator implements
 			// get the "others" data
 			ICountData cd = CountDataUtil.random(getCountData());
 			letter = cd.getLetter();
-			correct = cd.getParticipant();
-			answers.add(cd.getParticipant());
+			correct = cd.getParticipant().toString();
+			answers.add(cd.getParticipant().toString());
 		} catch (QuestionException qe) {
 			// otherwise select uncounted letters.. since nobody counted these
 			List<String> uncountedLetters = CountDataUtil

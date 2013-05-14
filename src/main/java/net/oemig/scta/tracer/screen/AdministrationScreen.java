@@ -30,6 +30,7 @@ import net.oemig.scta.jfreechart.SctaToolTipGenerator;
 import net.oemig.scta.jfreechart.data.DefaultSctaDataset;
 import net.oemig.scta.model.IParticipant;
 import net.oemig.scta.model.data.UserName;
+import net.oemig.scta.model.exception.OperationNotSupportedException;
 import net.oemig.scta.model.exception.ResponseDataMissingException;
 import net.oemig.scta.tracer.IRegistrationListener;
 import net.oemig.scta.tracer.ITracerMediatorScreenSPI;
@@ -203,7 +204,11 @@ public class AdministrationScreen implements IScreen, IAssessmentRunListener {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				mediatorScreenSPI.getEnvironment().getLogger().log("Saving data to file.");
-				mediatorScreenSPI.getEnvironment().getTraceModel().save();
+				try {
+					mediatorScreenSPI.getEnvironment().getTraceModel().save();
+				} catch (OperationNotSupportedException e) {
+					mediatorScreenSPI.getEnvironment().getLogger().log("Saving failed. Operation not supported.");
+				}
 
 			}
 		};
@@ -215,7 +220,11 @@ public class AdministrationScreen implements IScreen, IAssessmentRunListener {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				mediatorScreenSPI.getEnvironment().getLogger().log("Exporting data to file.");
-				mediatorScreenSPI.getEnvironment().getTraceModel().export();
+				try {
+					mediatorScreenSPI.getEnvironment().getTraceModel().export();
+				} catch (OperationNotSupportedException e) {
+					mediatorScreenSPI.getEnvironment().getLogger().log("Export failed. Operation not supported.");
+				}
 			}
 		};
 		btnExport.addActionListener(exportListener);

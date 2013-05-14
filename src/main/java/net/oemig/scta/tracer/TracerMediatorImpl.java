@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.swing.JOptionPane;
 
 import net.oemig.scta.model.data.ExperiementId;
+import net.oemig.scta.model.data.Millisecond;
 import net.oemig.scta.model.data.QuestionType;
 import net.oemig.scta.model.data.UserName;
 import net.oemig.scta.model.exception.ResponseDataMissingException;
@@ -45,7 +46,12 @@ public class TracerMediatorImpl implements ITracerMediator,
 	 * Constructor
 	 */
 	public TracerMediatorImpl() {
-		envinronment=Environment.getInstance();
+		String traceName = JOptionPane
+				.showInputDialog("Please enter a trace name!");
+		String sessionName = JOptionPane
+				.showInputDialog("Please enter a session name!");
+		
+		envinronment=Environment.create(traceName,sessionName);
 		this.userName = UserName.of(JOptionPane
 				.showInputDialog("Please enter a user name!"));
 		
@@ -141,7 +147,7 @@ public class TracerMediatorImpl implements ITracerMediator,
 	public void saveResponseData(
 			final UserName participantName, 
 			final boolean isCorrect,
-			final int responseTime,
+			final Millisecond responseTime,
 			final QuestionType questionType) {
 
 		// dispatch to trace model

@@ -4,6 +4,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 import net.oemig.scta.model.data.ExperiementId;
+import net.oemig.scta.model.data.Millisecond;
 import net.oemig.scta.model.data.QuestionType;
 import net.oemig.scta.model.data.UserName;
 
@@ -17,13 +18,17 @@ import net.oemig.scta.model.data.UserName;
 public interface ITracerMediator extends Remote {
 
 	/**
-	 * Register a {@link UserName} for participating in an experiement.
+	 * Register a {@link UserName} for participating in an experiement specified
+	 * by the {@link ExperiementId}.
 	 * @param anUserName
 	 * @param anExperimentId
 	 * @param aColleague
 	 * @throws RemoteException
 	 */
-	public void register(final UserName anUserName, final ExperiementId anExperimentId, final ITracerColleague aColleague)
+	public void register(
+			final UserName anUserName, 
+			final ExperiementId anExperimentId, 
+			final ITracerColleague aColleague)
 			throws RemoteException;
 
 	/**
@@ -43,7 +48,10 @@ public interface ITracerMediator extends Remote {
 	 * @param result
 	 * @throws RemoteException
 	 */
-	public void saveCountData(final UserName participantName, final String letter, final int result)
+	public void saveCountData(
+			final UserName participantName, 
+			final String letter, 
+			final int result)
 			throws RemoteException;
 
 	/**
@@ -58,8 +66,13 @@ public interface ITracerMediator extends Remote {
 	public void saveResponseData(
 			final UserName participantName, 
 			final boolean isCorrect,
-			final int responseTime,
+			final Millisecond responseTime,
 			final QuestionType questionType) throws RemoteException;
 
+	/**
+	 * FIXME add documentation
+	 * @param userName
+	 * @throws RemoteException
+	 */
 	public void finishedFreezeProbe(UserName userName) throws RemoteException;
 }
