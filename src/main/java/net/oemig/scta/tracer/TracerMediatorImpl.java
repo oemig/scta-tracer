@@ -23,6 +23,7 @@ import net.oemig.scta.tracer.evaluation.impl.SctaV1EvaluationImpl;
 import net.oemig.scta.tracer.exception.TracerException;
 import net.oemig.scta.tracer.question.Question;
 import net.oemig.scta.tracer.question.QuestionFactory;
+import net.oemig.scta.tracer.question.exception.QuestionGenerationFailedException;
 import net.oemig.scta.tracer.run.AssessmentRun;
 import net.oemig.scta.tracer.run.IAssessmentRunListener;
 import net.oemig.scta.tracer.screen.AdministrationScreen;
@@ -224,10 +225,13 @@ public class TracerMediatorImpl implements ITracerMediator,
 			try {
 				ITracerColleague c = colleagueMap.get(userName);
 				c.doFreezeProbe(QuestionFactory.getMultiple(userName,
-						envinronment));
+						envinronment, colleagueMap.keySet()));
 			} catch (RemoteException e) {
 				throw new TracerException(TracerException.REMOTE_EXCEPTION, e);
 			} catch (NoCurrentRunSelectedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (QuestionGenerationFailedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
