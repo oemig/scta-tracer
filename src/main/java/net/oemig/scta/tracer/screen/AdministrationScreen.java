@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -30,6 +31,8 @@ import net.oemig.scta.jfreechart.SctaToolTipGenerator;
 import net.oemig.scta.jfreechart.data.DefaultSctaDataset;
 import net.oemig.scta.model.IParticipant;
 import net.oemig.scta.model.data.UserName;
+import net.oemig.scta.model.exception.NoCurrentRunSelectedException;
+import net.oemig.scta.model.exception.NoCurrentSessionSelectedException;
 import net.oemig.scta.model.exception.OperationNotSupportedException;
 import net.oemig.scta.model.exception.ResponseDataMissingException;
 import net.oemig.scta.tracer.IRegistrationListener;
@@ -53,11 +56,11 @@ public class AdministrationScreen implements IScreen, IAssessmentRunListener {
 
 	private static final long serialVersionUID = -9169397434346157649L;
 
-	private ITracerMediatorScreenSPI mediatorScreenSPI;
-	private JFrame f;
+	private final ITracerMediatorScreenSPI mediatorScreenSPI;
+	private final JFrame f;
 	final JToggleButton btnStartPauseRun = new javax.swing.JToggleButton();
 
-	public AdministrationScreen(ITracerMediatorScreenSPI mediatorImpl) {
+	public AdministrationScreen(ITracerMediatorScreenSPI mediatorImpl) throws NoCurrentRunSelectedException, NoCurrentSessionSelectedException {
 		this.mediatorScreenSPI = mediatorImpl;
 		this.f = new JFrame("SCTA Tracer");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -73,8 +76,10 @@ public class AdministrationScreen implements IScreen, IAssessmentRunListener {
 
 	/**
 	 * Session panel
+	 * @throws NoCurrentRunSelectedException 
+	 * @throws NoCurrentSessionSelectedException 
 	 */
-	private JPanel createSessionPanel() {
+	private JPanel createSessionPanel() throws NoCurrentRunSelectedException, NoCurrentSessionSelectedException {
 		JPanel sessionPanel = new JPanel();
 
 		JPanel logPanel = new javax.swing.JPanel();
@@ -205,7 +210,13 @@ public class AdministrationScreen implements IScreen, IAssessmentRunListener {
 			public void actionPerformed(ActionEvent arg0) {
 				mediatorScreenSPI.getEnvironment().getLogger().log("Saving data to file.");
 				try {
-					mediatorScreenSPI.getEnvironment().getTraceModel().save();
+					JFileChooser fc=new JFileChooser();
+					fc.setDialogType(JFileChooser.SAVE_DIALOG);
+					int state=fc.showSaveDialog(null);
+					if(JFileChooser.APPROVE_OPTION==state){
+						mediatorScreenSPI.getEnvironment().getTraceModel().save(fc.getSelectedFile().getAbsolutePath());
+					}
+					
 				} catch (OperationNotSupportedException e) {
 					mediatorScreenSPI.getEnvironment().getLogger().log("Saving failed. Operation not supported.");
 				}

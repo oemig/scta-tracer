@@ -7,6 +7,7 @@ import net.oemig.scta.model.ICountData;
 import net.oemig.scta.model.ITraceModel;
 import net.oemig.scta.model.data.QuestionType;
 import net.oemig.scta.model.data.UserName;
+import net.oemig.scta.model.exception.NoCurrentRunSelectedException;
 import net.oemig.scta.tracer.evaluation.CountDataUtil;
 import net.oemig.scta.tracer.question.IQuestionGenerator;
 import net.oemig.scta.tracer.question.Question;
@@ -40,7 +41,7 @@ public abstract class AbstractWhatQuestionGenerator implements
 	}
 
 	@Override
-	public Question generate() {
+	public Question generate() throws NoCurrentRunSelectedException {
 		List<String>answers=ImmutableList.of("ja","nein");
 		String letter;
 		String correct;
@@ -76,7 +77,7 @@ public abstract class AbstractWhatQuestionGenerator implements
 	}
 	
 	public abstract QuestionType getType();
-	public abstract Collection<ICountData> getCountData();
+	public abstract Collection<ICountData> getCountData() throws NoCurrentRunSelectedException;
 
 	public UserName getUserName() {
 		return userName;

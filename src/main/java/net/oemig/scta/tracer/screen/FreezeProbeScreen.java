@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 import net.oemig.scta.model.data.Millisecond;
+import net.oemig.scta.model.exception.NoCurrentRunSelectedException;
 import net.oemig.scta.tracer.ITracerColleagueScreenSPI;
 import net.oemig.scta.tracer.question.Question;
 import net.oemig.scta.tracer.util.SerializableStopWatch;
@@ -81,6 +82,9 @@ public class FreezeProbeScreen implements IScreen {
 								questions[questionCounter].getType()
 								);
 					} catch (RemoteException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (NoCurrentRunSelectedException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}

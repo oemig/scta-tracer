@@ -21,7 +21,7 @@ public class PropertyConfigurationImpl implements IConfiguration {
 	private static final String TRACE_FILE_DIR="TRACE_FILE_DIR";
 	private static final String CONFIGURATION_FILE_NAME = "SCTATracerConfiguration";
 
-	private Properties applicationProperties;
+	private final Properties applicationProperties;
 
 	public PropertyConfigurationImpl() {
 		// setup default properties
@@ -195,7 +195,7 @@ public class PropertyConfigurationImpl implements IConfiguration {
 
 	private Properties createDefaultProperties() {
 		Properties dp = new Properties();
-		dp.setProperty(RUN_DURATION, Integer.toString(15));
+		dp.setProperty(RUN_DURATION, Integer.toString(600000));
 		dp.setProperty(FREEZE_PROBES_PER_RUN, Integer.toString(1));
 		dp.setProperty(QUESTIONS_PER_FREEZE_PROBE, Integer.toString(4));
 		dp.setProperty(DOCUMENT_SIZE, Integer.toString(2250));

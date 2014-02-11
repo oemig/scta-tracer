@@ -1,8 +1,8 @@
 package net.oemig.scta.tracer;
 
 import java.rmi.RemoteException;
-import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import javax.swing.JOptionPane;
 
@@ -10,7 +10,12 @@ import net.oemig.scta.model.data.ExperiementId;
 import net.oemig.scta.model.data.Millisecond;
 import net.oemig.scta.model.data.QuestionType;
 import net.oemig.scta.model.data.UserName;
+import net.oemig.scta.model.exception.NoCurrentRunSelectedException;
+import net.oemig.scta.model.exception.NoCurrentSessionSelectedException;
 import net.oemig.scta.model.exception.ResponseDataMissingException;
+import net.oemig.scta.tracer.awareness.AwarenessEvent;
+import net.oemig.scta.tracer.awareness.IAwarenessSupportListener;
+import net.oemig.scta.tracer.coordination.ICoordinationSupportListener;
 import net.oemig.scta.tracer.evaluation.EvaluationResult;
 import net.oemig.scta.tracer.evaluation.IEvaluation;
 import net.oemig.scta.tracer.evaluation.exception.ModelMissingException;
@@ -27,25 +32,31 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 public class TracerMediatorImpl implements ITracerMediator,
-		ITracerMediatorScreenSPI, IAssessmentRunListener {
+		ITracerMediatorScreenSPI, 
+		IAssessmentRunListener, 
+		IAwarenessSupportListener, 
+		ICoordinationSupportListener {
 
 	private static final IEvaluation DEFAULT_EVALUATION = SctaV1EvaluationImpl
 			.getInstance();
 
-	Map<UserName, ITracerColleague> colleagueMap;
-	private UserName userName;
-	private HashSet<IRegistrationListener> registrationListeners;
-	private AssessmentRun assessmentRun;
-	private IScreen adminstrationScreen;
+	private final Map<UserName, ITracerColleague> colleagueMap;
+	private final UserName userName; 
+	private final Set<IRegistrationListener> registrationListeners;
+	private final AssessmentRun assessmentRun;
+	private final IScreen adminstrationScreen;
 	private int colleaguesInFreezeProbe;
 	private IEvaluation evaluation;
 
-	private Environment envinronment;
+	private final Environment envinronment;
 
 	/**
 	 * Constructor
+	 * 
+	 * @throws NoCurrentSessionSelectedException 
+	 * @throws NoCurrentRunSelectedException 
 	 */
-	public TracerMediatorImpl() {
+	public TracerMediatorImpl() throws NoCurrentRunSelectedException, NoCurrentSessionSelectedException {
 		String traceName = JOptionPane
 				.showInputDialog("Please enter a trace name!");
 		String sessionName = JOptionPane
@@ -67,6 +78,10 @@ public class TracerMediatorImpl implements ITracerMediator,
 		this.adminstrationScreen = new AdministrationScreen(this);
 		assessmentRun.addListener((IAssessmentRunListener)adminstrationScreen);
 
+		//register mediator as listener to the awareness support system
+		getEnvironment().getAwarenessSupportSystem().addListener(this);
+		getEnvironment().getCoordinationSupportSystem().addListener(this);
+		
 		// after successful setup
 		// launch the administration screen
 		this.adminstrationScreen.show();
@@ -74,11 +89,12 @@ public class TracerMediatorImpl implements ITracerMediator,
 	}
 
 	/**
+	 * @throws NoCurrentRunSelectedException 
 	 * @see ITracerMediator#register(String, ITracerColleague)
 	 */
 	@Override
 	public void register(final UserName userName, final ExperiementId anExperiementId, final ITracerColleague colleague)
-			throws RemoteException {
+			throws RemoteException, NoCurrentRunSelectedException {
 		envinronment.getLogger().log(getClass().getName() + ": " + userName + " registered.");
 		// store name and remote reference for later use
 		this.colleagueMap.put(userName, colleague);
@@ -125,11 +141,12 @@ public class TracerMediatorImpl implements ITracerMediator,
 	}
 
 	/**
+	 * @throws NoCurrentRunSelectedException 
 	 * @see ITracerMediator#saveCountData(String, String, int)
 	 */
 	@Override
 	public void saveCountData(final UserName participantName, final String letter,
-			final int quantity) {
+			final int quantity) throws NoCurrentRunSelectedException {
 
 		// dispatch to model
 		envinronment.getTraceModel().addCountData(participantName, letter, quantity);
@@ -138,9 +155,12 @@ public class TracerMediatorImpl implements ITracerMediator,
 		envinronment.getLogger().log(getClass().getName() + ".saveCountData() --name: "
 				+ participantName + " --letter: " + letter + " --quantitiy: "
 				+ quantity);
+		
+		envinronment.getAwarenessSupportSystem().log(AwarenessEvent.of(participantName, letter, quantity));
 	}
 
 	/**
+	 * @throws NoCurrentRunSelectedException 
 	 * @see ITracerMediator#saveResponseData(String, boolean, int)
 	 */
 	@Override
@@ -148,7 +168,7 @@ public class TracerMediatorImpl implements ITracerMediator,
 			final UserName participantName, 
 			final boolean isCorrect,
 			final Millisecond responseTime,
-			final QuestionType questionType) {
+			final QuestionType questionType) throws NoCurrentRunSelectedException {
 
 		// dispatch to trace model
 		envinronment.getTraceModel().addResponseData(participantName, isCorrect,
@@ -200,13 +220,16 @@ public class TracerMediatorImpl implements ITracerMediator,
 		// hand over questions to colleagues
 		envinronment.getLogger().log(getClass().getName()
 				+ ": launch freeze probe for all colleagues");
-		for (UserName colleagueName : this.colleagueMap.keySet()) {
+		for (UserName userName : this.colleagueMap.keySet()) {
 			try {
-				ITracerColleague c = colleagueMap.get(colleagueName);
-				c.doFreezeProbe(QuestionFactory.getMultiple(colleagueName,
-						envinronment.getTraceModel()));
+				ITracerColleague c = colleagueMap.get(userName);
+				c.doFreezeProbe(QuestionFactory.getMultiple(userName,
+						envinronment));
 			} catch (RemoteException e) {
 				throw new TracerException(TracerException.REMOTE_EXCEPTION, e);
+			} catch (NoCurrentRunSelectedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 
@@ -281,6 +304,29 @@ public class TracerMediatorImpl implements ITracerMediator,
 	@Override
 	public Environment getEnvironment() {
 		return envinronment;
+	}
+
+	@Override
+	public void update() throws TracerException {
+		for (ITracerColleague c : colleagueMap.values()) {
+			try {
+				c.updateAwarenessDisplay(getEnvironment().getAwarenessSupportSystem().get());
+			} catch (RemoteException e) {
+				throw new TracerException(TracerException.REMOTE_EXCEPTION, e);
+			}
+		}
+	}
+
+	@Override
+	public void coordinate() throws TracerException {
+		for(UserName u: colleagueMap.keySet()){
+			try {
+				ITracerColleague c=colleagueMap.get(u);
+				c.updateCoordinationDisplay(getEnvironment().getCoordinationSupportSystem().getLetterSet(u));
+			} catch (RemoteException e) {
+				throw new TracerException(TracerException.REMOTE_EXCEPTION, e);
+			}
+		}
 	}
 
 }

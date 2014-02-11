@@ -8,6 +8,7 @@ import net.oemig.scta.model.ICountData;
 import net.oemig.scta.model.ITraceModel;
 import net.oemig.scta.model.data.QuestionType;
 import net.oemig.scta.model.data.UserName;
+import net.oemig.scta.model.exception.NoCurrentRunSelectedException;
 import net.oemig.scta.tracer.evaluation.CountDataUtil;
 import net.oemig.scta.tracer.question.IQuestionGenerator;
 import net.oemig.scta.tracer.question.Question;
@@ -27,7 +28,7 @@ public abstract class AbstractHowQuestionGenerator implements
 	}
 
 	@Override
-	public Question generate() {
+	public Question generate() throws NoCurrentRunSelectedException {
 		List<String> answers = Lists.newArrayList();
 		answers.add(CountDataUtil.NONE);
 		answers.add(Integer.toString(CountDataUtil.getRandomNumber(25)));
@@ -44,7 +45,7 @@ public abstract class AbstractHowQuestionGenerator implements
 			// otherwise select uncounted letters.. since nobody counted these
 			List<String> uncountedLetters = CountDataUtil
 					.getUncountedLetters(model.getCurrentRun().getCountData());
-			Collections.shuffle(uncountedLetters);
+			Collections.shuffle(uncountedLetters);  
 			letter = uncountedLetters.get(0);
 			answers.add(Integer.toString(CountDataUtil.getRandomNumber(25)));
 
@@ -60,7 +61,7 @@ public abstract class AbstractHowQuestionGenerator implements
 
 	public abstract QuestionType getType();
 
-	public abstract Collection<ICountData> getCountData();
+	public abstract Collection<ICountData> getCountData() throws NoCurrentRunSelectedException;
 
 	public UserName getUserName() {
 		return userName;

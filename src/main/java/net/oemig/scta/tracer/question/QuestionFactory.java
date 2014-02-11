@@ -3,8 +3,9 @@ package net.oemig.scta.tracer.question;
 import java.util.Collections;
 import java.util.List;
 
-import net.oemig.scta.model.ITraceModel;
 import net.oemig.scta.model.data.UserName;
+import net.oemig.scta.model.exception.NoCurrentRunSelectedException;
+import net.oemig.scta.tracer.Environment;
 import net.oemig.scta.tracer.question.how.GroupHowQuestionGenerator;
 import net.oemig.scta.tracer.question.how.IndividualHowQuestionGenerator;
 import net.oemig.scta.tracer.question.what.GroupWhatQuestionGenerator;
@@ -29,14 +30,14 @@ public final class QuestionFactory {
 	private QuestionFactory() {
 	}
 
-	public static Question[] getMultiple(final UserName userName, ITraceModel model) {
+	public static Question[] getMultiple(final UserName userName, Environment anEnvironment) throws NoCurrentRunSelectedException {
 		List<IQuestionGenerator> generators = Lists.newArrayList();
 //		generators.add(new GroupHowQuestionGenerator(userName, model));
-		generators.add(new GroupWhoQuestionGenerator(userName, model));
-		generators.add(new GroupWhatQuestionGenerator(userName, model));
+		generators.add(new GroupWhoQuestionGenerator(userName, anEnvironment.getTraceModel()));
+		generators.add(new GroupWhatQuestionGenerator(userName, anEnvironment.getTraceModel()));
 //		generators.add(new IndividualHowQuestionGenerator(userName, model));
-		generators.add(new IndividualWhoQuestionGenerator(userName, model));
-		generators.add(new IndividualWhatQuestionGenerator(userName, model));
+		generators.add(new IndividualWhoQuestionGenerator(userName, anEnvironment.getTraceModel()));
+		generators.add(new IndividualWhatQuestionGenerator(userName, anEnvironment.getTraceModel()));
 
 		// create random order for questions
 		Collections.shuffle(generators);

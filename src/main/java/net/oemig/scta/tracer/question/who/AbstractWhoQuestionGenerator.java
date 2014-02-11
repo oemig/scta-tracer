@@ -1,4 +1,4 @@
-package net.oemig.scta.tracer.question.who;
+ package net.oemig.scta.tracer.question.who;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -8,6 +8,7 @@ import net.oemig.scta.model.ICountData;
 import net.oemig.scta.model.ITraceModel;
 import net.oemig.scta.model.data.QuestionType;
 import net.oemig.scta.model.data.UserName;
+import net.oemig.scta.model.exception.NoCurrentRunSelectedException;
 import net.oemig.scta.tracer.evaluation.CountDataUtil;
 import net.oemig.scta.tracer.question.IQuestionGenerator;
 import net.oemig.scta.tracer.question.Question;
@@ -28,7 +29,7 @@ public abstract class AbstractWhoQuestionGenerator implements
 	}
 
 	@Override
-	public Question generate() {
+	public Question generate() throws NoCurrentRunSelectedException {
 
 		//initialize answers with the user's name and nobody
 		List<String> answers = Lists.newArrayList();
@@ -65,7 +66,7 @@ public abstract class AbstractWhoQuestionGenerator implements
 
 	public abstract QuestionType getType();
 
-	public abstract Collection<ICountData> getCountData();
+	public abstract Collection<ICountData> getCountData() throws NoCurrentRunSelectedException;
 
 	public UserName getUserName() {
 		return userName;

@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import net.oemig.scta.model.exception.NoCurrentRunSelectedException;
 import net.oemig.scta.tracer.ITracerColleagueScreenSPI;
 import net.oemig.scta.tracer.run.Document;
 
@@ -69,9 +70,12 @@ public class DocumentScreen implements IScreen {
 					txtLetter.setText("");
 					txtCount.setText("");
 				} catch (NumberFormatException e) {
-					// TODO Auto-generated catch block
+					// TODO Auto-generated catch block             
 					e.printStackTrace();
 				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NoCurrentRunSelectedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
