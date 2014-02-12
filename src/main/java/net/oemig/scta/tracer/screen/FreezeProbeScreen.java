@@ -1,6 +1,8 @@
 package net.oemig.scta.tracer.screen;
 
 import java.awt.BorderLayout;
+import java.awt.GraphicsEnvironment;
+import java.awt.Point;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.rmi.RemoteException;
@@ -24,21 +26,28 @@ public class FreezeProbeScreen implements IScreen {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private ITracerColleagueScreenSPI colleagueScreenSPI;
-	private JFrame f;
-	private JLabel lbQuestion;
-	private SerializableStopWatch stopWatch;
-	private JRadioButton rbOption1;
-	private JRadioButton rbOption2;
-	private JRadioButton rbOption3;
-	private ButtonGroup g;
+	private final ITracerColleagueScreenSPI colleagueScreenSPI;
+	private final JFrame f;
+	private final JLabel lbQuestion;
+	private final SerializableStopWatch stopWatch;
+	private final JRadioButton rbOption1;
+	private final JRadioButton rbOption2;
+	private final JRadioButton rbOption3;
+	private final ButtonGroup g;
 	private int questionCounter;
 	private int numberOfQuestions;
 	private Question[] questions;
+	private final int width=450;
+	private final int height=500;
 
 	public FreezeProbeScreen(ITracerColleagueScreenSPI newColleagueScreenSPI) {
 		this.colleagueScreenSPI = newColleagueScreenSPI;
 		this.f = new JFrame("Freeze Probe");
+		Point p=GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint();
+		Point leftCorner=new Point(p.x-Math.round(width/2), p.y-Math.round(height/2));
+		f.setLocation(leftCorner);
+		f.setSize(width, height);
+		
 		this.questionCounter = 0;
 		this.numberOfQuestions = 0;
 		this.lbQuestion = new JLabel();
@@ -107,7 +116,7 @@ public class FreezeProbeScreen implements IScreen {
 		rbOption2.addItemListener(il);
 		rbOption3.addItemListener(il);
 
-		f.setSize(450, 500);
+		
 
 	}
 

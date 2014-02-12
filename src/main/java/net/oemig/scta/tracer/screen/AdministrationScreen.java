@@ -2,8 +2,10 @@ package net.oemig.scta.tracer.screen;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -58,20 +60,28 @@ public class AdministrationScreen implements IScreen, IAssessmentRunListener {
 
 	private final ITracerMediatorScreenSPI mediatorScreenSPI;
 	private final JFrame f;
+	private final int width=450;
+	private final int height=500;
+	
 	final JToggleButton btnStartPauseRun = new javax.swing.JToggleButton();
 
 	public AdministrationScreen(ITracerMediatorScreenSPI mediatorImpl) throws NoCurrentRunSelectedException, NoCurrentSessionSelectedException {
 		this.mediatorScreenSPI = mediatorImpl;
+		//center frame on screen
+		Point p=GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint();
+		Point leftCorner=new Point(p.x-Math.round(width/2), p.y-Math.round(height/2));
+		
 		this.f = new JFrame("SCTA Tracer");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		f.setLocation(leftCorner);
+		
 		JTabbedPane tabbedPane = new JTabbedPane();
 		tabbedPane.addTab("Session", this.createSessionPanel());
 		tabbedPane.addTab("Evaluation", this.createEvaluationPanel());
 		tabbedPane.addTab("Configuration", this.createConfigurationPanel());
 
 		f.getContentPane().add(tabbedPane);
-		f.setSize(450, 500);
+		f.setSize(width, height);
 	}
 
 	/**

@@ -1,6 +1,8 @@
 package net.oemig.scta.tracer.screen;
 
 import java.awt.BorderLayout;
+import java.awt.GraphicsEnvironment;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
@@ -23,16 +25,22 @@ public class DocumentScreen implements IScreen {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private JFrame f;
-	private JTextArea text;
-	private ITracerColleagueScreenSPI colleagueScreenSPI;
+	private final JFrame f;
+	private final JTextArea text;
+	private final ITracerColleagueScreenSPI colleagueScreenSPI;
+	private final int width=450;
+	private final int height=500;
 
 	public DocumentScreen(ITracerColleagueScreenSPI newColleagueScreenSPI) {
+		Point p=GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint();
+		Point leftCorner=new Point(p.x-Math.round(width/2), p.y-Math.round(height/2));
+		
 		this.colleagueScreenSPI = newColleagueScreenSPI;
 
 		this.f = new JFrame("Document Screen");
 		// f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setSize(450, 800);
+		f.setSize(width, height);
+		f.setLocation(leftCorner);
 		f.setLayout(new BorderLayout());
 
 		this.text = new JTextArea("No document available");
