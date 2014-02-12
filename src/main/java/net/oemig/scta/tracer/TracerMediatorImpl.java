@@ -56,8 +56,9 @@ public class TracerMediatorImpl implements ITracerMediator,
 	 * 
 	 * @throws NoCurrentSessionSelectedException 
 	 * @throws NoCurrentRunSelectedException 
+	 * @throws TracerException 
 	 */
-	public TracerMediatorImpl() throws NoCurrentRunSelectedException, NoCurrentSessionSelectedException {
+	public TracerMediatorImpl() throws NoCurrentRunSelectedException, NoCurrentSessionSelectedException, TracerException {
 		String traceName = JOptionPane
 				.showInputDialog("Please enter a trace name!");
 		String sessionName = JOptionPane
@@ -206,6 +207,7 @@ public class TracerMediatorImpl implements ITracerMediator,
 		for (ITracerColleague c : colleagueMap.values()) {
 			try {
 				c.showDocumentScreen(assessmentRun.getDocument(), message);
+				coordinate();
 			} catch (RemoteException e) {
 				throw new TracerException(TracerException.REMOTE_EXCEPTION, e);
 			}

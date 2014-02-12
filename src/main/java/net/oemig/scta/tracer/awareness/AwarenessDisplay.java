@@ -1,5 +1,7 @@
 package net.oemig.scta.tracer.awareness;
 
+import java.awt.GraphicsEnvironment;
+import java.awt.Point;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
@@ -19,16 +21,21 @@ public class AwarenessDisplay implements IScreen {
 	private static final long serialVersionUID = -5208363223767538457L;
 	private final JFrame f;
 	private final JTextArea l;
+	private final int width=450;
+	private final int height=500;
 
 	//constructor
 	public AwarenessDisplay(){
 		this.f = new JFrame("Awareness Display");
 		// f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+		Point p=GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint();
+		Point leftCorner=new Point(0, p.y);
+		
 		l = new JTextArea("Loading");
 		l.setEditable(false);
 		f.getContentPane().add(l);
-		f.setSize(450, 500);
+		f.setSize(width, height);
+		f.setLocation(leftCorner);
 	}
 	
 	@Override

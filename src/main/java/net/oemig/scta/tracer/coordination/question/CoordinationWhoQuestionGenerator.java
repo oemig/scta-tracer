@@ -49,6 +49,12 @@ public class CoordinationWhoQuestionGenerator implements IQuestionGenerator {
 			answers.add(u.toString());
 		}
 		answers.add("Nobody (already counted)");
+		//array out of bounds exception protection.. in case there is only one user
+		if(answers.size()<3){
+			answers.add("");
+		}
+		
+		
 		Collections.shuffle(answers);
 		
 		return new Question("Who may count "+c+"'s next?", 

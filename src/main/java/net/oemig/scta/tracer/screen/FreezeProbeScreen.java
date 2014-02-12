@@ -131,8 +131,8 @@ public class FreezeProbeScreen implements IScreen {
 		this.f.setTitle("Freeze Probe - Question #" + (i + 1));
 		this.g.clearSelection();
 
-		this.lbQuestion.setText("Question #" + (i + 1) + ": "
-				+ questions[i].get());
+		this.lbQuestion.setText("<html><font size=+2>Question #" + (i + 1) + ": "
+				+ questions[i].get()+"</font></html>");
 		this.rbOption1.setText("Answer 1: " + questions[i].getAnswer1());
 		this.rbOption2.setText("Answer 2: " + questions[i].getAnswer2());
 		this.rbOption3.setText("Answer 3: " + questions[i].getAnswer3());

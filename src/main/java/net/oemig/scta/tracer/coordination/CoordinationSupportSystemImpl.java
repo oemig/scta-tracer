@@ -43,10 +43,11 @@ public class CoordinationSupportSystemImpl implements ICoordinationSupportSystem
 		awarenessSupportSystem.addListener(this);
 		availableLetterSets=Sets.newHashSet(letterSetA,letterSetB);
 		userToLetterSet=Maps.newHashMap();
+		userToEvents=ArrayListMultimap.create();
 	}
 	
 	private final List<ICoordinationSupportListener> listeners;
-	private Multimap<UserName,AwarenessEvent>  userToEvents;
+	private final Multimap<UserName,AwarenessEvent>  userToEvents;
 	
 	@Override
 	public void addListener(ICoordinationSupportListener aListener) {
@@ -72,7 +73,7 @@ public class CoordinationSupportSystemImpl implements ICoordinationSupportSystem
 		//get the information from the awareness support system
 		Map<Date,AwarenessEvent> dateToEvent=awarenessSupportSystem.get();
 		//do something with it
-		userToEvents=ArrayListMultimap.create();
+		
 		for(AwarenessEvent e:dateToEvent.values()){
 			userToEvents.put(e.getUserName(), e);
 		}
@@ -91,11 +92,13 @@ public class CoordinationSupportSystemImpl implements ICoordinationSupportSystem
 			userToLetterSet.put(aName, letterSet);
 		}
 		
+		//might be null if there were no events yet
+		if(null!=userToEvents.get(aName)){
 		//now we have a letter set for the user
-		for(AwarenessEvent e:userToEvents.get(aName)){
-			letterSet=letterSet.replace(e.getLetter().charAt(0), "-".charAt(0));
+			for(AwarenessEvent e:userToEvents.get(aName)){
+				letterSet=letterSet.replace(e.getLetter().charAt(0), "-".charAt(0));
+			}
 		}
-		
 		return letterSet;
 	}
 
