@@ -11,18 +11,18 @@ public final class AwarenessEvent implements Serializable{
 	 */
 	private static final long serialVersionUID = -6584316481256561948L;
 
-	public static AwarenessEvent of(UserName aUserName, String aLetter, int aCountResult){
-		return new AwarenessEvent(aUserName, aLetter, aCountResult);
+	public static AwarenessEvent of(UserName aUserName, String aLetter, String aMessage){
+		return new AwarenessEvent(aUserName, aLetter, aMessage);
 	}
 
 	private final UserName userName;
 	private final String letter;
-	private final int countResult;
+	private final String message;
 	
-	private AwarenessEvent(UserName aUserName, String aLetter, int aCountResult){
+	private AwarenessEvent(UserName aUserName, String aLetter, String aMessage){
 		userName=aUserName;
 		letter=aLetter;
-		countResult=aCountResult;
+		message=aMessage;
 	}
 
 	public UserName getUserName() {
@@ -33,8 +33,8 @@ public final class AwarenessEvent implements Serializable{
 		return letter;
 	}
 
-	public int getCountResult() {
-		return countResult;
+	public String getMessage() {
+		return message;
 	}
 	
 	

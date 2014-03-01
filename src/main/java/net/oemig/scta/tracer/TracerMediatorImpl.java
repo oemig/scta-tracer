@@ -1,7 +1,9 @@
 package net.oemig.scta.tracer;
 
 import java.rmi.RemoteException;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 import javax.swing.JOptionPane;
@@ -59,14 +61,16 @@ public class TracerMediatorImpl implements ITracerMediator,
 	 * @throws TracerException 
 	 */
 	public TracerMediatorImpl() throws NoCurrentRunSelectedException, NoCurrentSessionSelectedException, TracerException {
+		
+		
 		String traceName = JOptionPane
-				.showInputDialog("Please enter a trace name!");
+				.showInputDialog(getResourceBundle().getString("mediator.input.trace"));
 		String sessionName = JOptionPane
-				.showInputDialog("Please enter a session name!");
+				.showInputDialog(getResourceBundle().getString("mediator.input.session"));
 		
 		envinronment=Environment.create(traceName,sessionName);
 		this.userName = UserName.of(JOptionPane
-				.showInputDialog("Please enter a user name!"));
+				.showInputDialog(getResourceBundle().getString("mediator.input.username")));
 		
 		this.colleagueMap = Maps.newHashMap();
 		 
@@ -105,9 +109,7 @@ public class TracerMediatorImpl implements ITracerMediator,
 
 		// bring colleague to show the wait screen
 		colleague
-				.showWaitScreen("Welcome! Your adminstrator "
-						+ this.userName
-						+ " registered you for participation in the next assessment run");
+				.showWaitScreen(getResourceBundle().getString("mediator.welcome"));
 
 		notifyRegistrationListeners();
 	}
@@ -142,6 +144,12 @@ public class TracerMediatorImpl implements ITracerMediator,
 		return userName;
 	}
 
+	@Override
+	public void startCounting(UserName aUserName, String letter)
+			throws RemoteException {
+
+		envinronment.getAwarenessSupportSystem().log(AwarenessEvent.of(aUserName, letter, getResourceBundle().getString("mediator.aw.counting.next")));
+	}
 	/**
 	 * @throws NoCurrentRunSelectedException 
 	 * @see ITracerMediator#saveCountData(String, String, int)
@@ -158,7 +166,7 @@ public class TracerMediatorImpl implements ITracerMediator,
 				+ participantName + " --letter: " + letter + " --quantitiy: "
 				+ quantity);
 		
-		envinronment.getAwarenessSupportSystem().log(AwarenessEvent.of(participantName, letter, quantity));
+		envinronment.getAwarenessSupportSystem().log(AwarenessEvent.of(participantName, letter, Integer.toString(quantity)));
 	}
 
 	/**
@@ -226,8 +234,8 @@ public class TracerMediatorImpl implements ITracerMediator,
 		for (UserName userName : this.colleagueMap.keySet()) {
 			try {
 				ITracerColleague c = colleagueMap.get(userName);
-				c.doFreezeProbe(QuestionFactory.getMultiple(userName,
-						envinronment, colleagueMap.keySet()));
+				c.doFreezeProbe(QuestionFactory.getMultiple(userName,getEnvironment(),
+						getResourceBundle(), colleagueMap.keySet()));
 			} catch (RemoteException e) {
 				throw new TracerException(TracerException.REMOTE_EXCEPTION, e);
 			} catch (NoCurrentRunSelectedException e) {
@@ -275,7 +283,7 @@ public class TracerMediatorImpl implements ITracerMediator,
 	public void finishedRun() throws TracerException {
 		for (ITracerColleague c : this.colleagueMap.values()) {
 			try {
-				c.showWaitScreen("The run has finished.. Thank you very much");
+				c.showWaitScreen(getResourceBundle().getString("ws.thankyou"));
 				envinronment.getLogger().log("Run finished.");
 			} catch (RemoteException e) {
 				throw new TracerException(TracerException.REMOTE_EXCEPTION, e);
@@ -334,5 +342,10 @@ public class TracerMediatorImpl implements ITracerMediator,
 			}
 		}
 	}
+	
+	public ResourceBundle getResourceBundle() {
+		return ResourceBundle.getBundle("i18n", Locale.getDefault());
+	}
+
 
 }

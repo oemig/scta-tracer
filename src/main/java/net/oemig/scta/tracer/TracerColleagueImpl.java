@@ -44,7 +44,7 @@ public class TracerColleagueImpl implements ITracerColleague,
 		this.mediator = newMediator;
 		
 		this.userName = UserName.of(JOptionPane
-				.showInputDialog("Please enter a user name!"));
+				.showInputDialog(getResourceBundle().getString("colleague.input.username")));
 		
 		this.waitScreen = new WaitScreen(this);
 		this.documentScreen = new DocumentScreen(this);
@@ -53,7 +53,7 @@ public class TracerColleagueImpl implements ITracerColleague,
 		this.coordinationDisplay=new CoordinationDisplay();
 
 		final ExperiementId experimentId = ExperiementId.of(JOptionPane
-				.showInputDialog("Please enter an experiment id!"));
+				.showInputDialog(getResourceBundle().getString("colleague.input.experimentid")));
 		
 		this.mediator.register(userName,experimentId,
 				(ITracerColleague) UnicastRemoteObject.exportObject(this, 0));

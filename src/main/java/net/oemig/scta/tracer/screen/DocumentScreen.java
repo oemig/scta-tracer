@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -42,24 +43,63 @@ public class DocumentScreen implements IScreen {
 		f.setSize(width, height);
 		f.setLocation(leftCorner);
 		f.setLayout(new BorderLayout());
-
+		
+		//the top portion of the document screen
+		//
+		JPanel pTop=new JPanel();
+		pTop.add(new JLabel(colleagueScreenSPI.getResourceBundle().getString("ds.select.letter")+"-->"));
+		
+		String[] letters=new String[]{"a","A","b","B","c","C","d","D","e","E","f","F","g","G","h","H","i","I","j","J","k","K","l","L","m","M","n","N","o","O","p","P","q","Q","r","R","s","S","t","T","u","U","v","V","w","W","x","X","y","Y","z","Z"};
+		final JComboBox cbLetters=new JComboBox(letters);
+		cbLetters.setSelectedIndex(-1);//no selection
+		pTop.add(cbLetters);
+		
+		final JButton  btnCount=new JButton(colleagueScreenSPI.getResourceBundle().getString("ds.go"));
+		pTop.add(btnCount);
+		
+		final JButton btnSubmit = new JButton(colleagueScreenSPI.getResourceBundle().getString("ds.submit"));
+		btnSubmit.setVisible(false);
+		ActionListener alBtnCount=new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				btnCount.setVisible(false);
+				btnSubmit.setVisible(true);
+				f.repaint();
+				try {
+					colleagueScreenSPI.getMediator().startCounting(colleagueScreenSPI.getUserName(), (String)cbLetters.getSelectedItem());
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		};
+		
+		btnCount.addActionListener(alBtnCount);
+		
+		f.add(pTop, BorderLayout.PAGE_START);
+		
+		//the center of the document screen showing the letters
+		//
 		this.text = new JTextArea("No document available");
 		text.setEditable(false);
 		f.add(text, BorderLayout.CENTER);
-		JPanel panel = new JPanel();
+		
+		//now comes the lower portion of the document screen
+		//
+		JPanel pBottom = new JPanel();
 
-		panel.add(new JLabel(colleagueScreenSPI.getResourceBundle().getString("ds.letter")));
-		final JTextField txtLetter = new JTextField(2);
-		panel.add(txtLetter);
+//		pBottom.add(new JLabel(colleagueScreenSPI.getResourceBundle().getString("ds.letter")+"-->"));
+//		final JTextField txtLetter = new JTextField(2);
+//		pBottom.add(txtLetter);
 
-		panel.add(new JLabel(colleagueScreenSPI.getResourceBundle().getString("ds.count")));
+		pBottom.add(new JLabel(colleagueScreenSPI.getResourceBundle().getString("ds.count")+"-->"));
 		final JTextField txtCount = new JTextField(6);
-		panel.add(txtCount);
+		pBottom.add(txtCount);
 
-		JButton btnSubmit = new JButton(colleagueScreenSPI.getResourceBundle().getString("ds.submit"));
-		panel.add(btnSubmit);
+		
+		pBottom.add(btnSubmit);
 
-		ActionListener al = new ActionListener() {
+		ActionListener alBtnSubmit = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// btn submit was pushed..
@@ -71,12 +111,17 @@ public class DocumentScreen implements IScreen {
 
 					colleagueScreenSPI.getMediator().saveCountData(
 							colleagueScreenSPI.getUserName(),
-							txtLetter.getText(),
+							(String)cbLetters.getSelectedItem(),
 							Integer.parseInt(txtCount.getText()));
 
 					// clear text fields
-					txtLetter.setText("");
+					cbLetters.setSelectedIndex(-1);//no selection
 					txtCount.setText("");
+					
+					btnCount.setVisible(true);
+					btnSubmit.setVisible(false);
+					
+					f.repaint();
 				} catch (NumberFormatException e) {
 					// TODO Auto-generated catch block             
 					e.printStackTrace();
@@ -90,9 +135,9 @@ public class DocumentScreen implements IScreen {
 			}
 		};
 
-		btnSubmit.addActionListener(al);
+		btnSubmit.addActionListener(alBtnSubmit);
 
-		f.add(panel, BorderLayout.PAGE_END);
+		f.add(pBottom, BorderLayout.PAGE_END);
 
 	}
 

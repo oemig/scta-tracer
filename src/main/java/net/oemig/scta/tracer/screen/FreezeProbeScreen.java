@@ -137,7 +137,7 @@ public class FreezeProbeScreen implements IScreen {
 		this.f.setTitle(colleagueScreenSPI.getResourceBundle().getString("fps.title"));
 		this.g.clearSelection();
 		
-		this.lbQuestion.setText("<html><font size=+2>"+colleagueScreenSPI.getResourceBundle().getString("fps.question") + (i + 1) + ": <br>"
+		this.lbQuestion.setText("<html>"+colleagueScreenSPI.getResourceBundle().getString("fps.question") + (i + 1) + ": <br><font size=+2>"
 				+ questions[i].get()+"</font></html>");
 		this.rbOption1.setText(colleagueScreenSPI.getResourceBundle().getString("fps.answer")+" 1: " + questions[i].getAnswer1());
 		this.rbOption2.setText(colleagueScreenSPI.getResourceBundle().getString("fps.answer")+" 2: " + questions[i].getAnswer2());

@@ -22,7 +22,7 @@ public class AwarenessDisplay implements IScreen {
 	private final JFrame f;
 	private final JTextArea l;
 	private final int width=450;
-	private final int height=500;
+	private final int height=400;
 
 	//constructor
 	public AwarenessDisplay(){
@@ -58,13 +58,12 @@ public class AwarenessDisplay implements IScreen {
 		
 		for(Date d:dates){
 			AwarenessEvent e=someEvents.get(d);
-			sb.append(df.format(d));
-			sb.append(": ");
 			sb.append(e.getUserName().toString());
-			sb.append(" ");
+			sb.append(": ");
 			sb.append(e.getLetter());
 			sb.append("-->");
-			sb.append(e.getCountResult());
+			sb.append(e.getMessage());
+			sb.append("("+df.format(d)+")");
 			sb.append("\n");
 			
 		}

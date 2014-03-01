@@ -42,6 +42,14 @@ public interface ITracerMediator extends Remote {
 	public void unregister(final UserName userName) throws RemoteException;
 
 	/**
+	 * 
+	 * @param aUserName
+	 * @param letter
+	 * @throws RemoteException
+	 */
+	public void startCounting(final UserName aUserName, final String letter)throws RemoteException;
+	
+	/**
 	 * Saves the counting result from a user for a certain letter 
 	 * in the mediator's model.
 	 * 

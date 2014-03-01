@@ -1,7 +1,10 @@
 package net.oemig.scta.tracer.coordination;
 
+import java.awt.BorderLayout;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import net.oemig.scta.tracer.screen.IScreen;
 
@@ -17,7 +20,10 @@ public class CoordinationDisplay implements IScreen {
 		// f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		l = new JLabel("Loading");
-		f.getContentPane().add(l);
+		f.setLayout(new BorderLayout());
+		JPanel p=new JPanel();
+		p.add(l);
+		f.add(p,BorderLayout.CENTER);
 		f.setSize(450, 250);
 	}
 	
@@ -32,6 +38,6 @@ public class CoordinationDisplay implements IScreen {
 	}
 
 	public void update(String someContents) {
-		l.setText(someContents);
+		l.setText("<html><font size=+1>"+someContents+"</font></html>");
 	}
 }

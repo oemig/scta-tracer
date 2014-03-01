@@ -2,6 +2,7 @@ package net.oemig.scta.tracer.question;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 import net.oemig.scta.model.data.UserName;
@@ -33,17 +34,17 @@ public final class QuestionFactory {
 	private QuestionFactory() {
 	}
 
-	public static Question[] getMultiple(final UserName userName, Environment anEnvironment, Set<UserName> someUserNames) throws NoCurrentRunSelectedException, QuestionGenerationFailedException {
+	public static Question[] getMultiple(final UserName userName, Environment anEnvironment,ResourceBundle aResourceBundle, Set<UserName> someUserNames) throws NoCurrentRunSelectedException, QuestionGenerationFailedException {
 		List<IQuestionGenerator> generators = Lists.newArrayList();
 //		generators.add(new GroupHowQuestionGenerator(userName, model));
-		generators.add(new GroupWhoQuestionGenerator(userName, anEnvironment.getTraceModel(), anEnvironment.getResourceBundle()));
-		generators.add(new GroupWhatQuestionGenerator(userName, anEnvironment.getTraceModel(),anEnvironment.getResourceBundle()));
+		generators.add(new GroupWhoQuestionGenerator(userName, anEnvironment.getTraceModel(), aResourceBundle));
+		generators.add(new GroupWhatQuestionGenerator(userName, anEnvironment.getTraceModel(),aResourceBundle));
 //		generators.add(new IndividualHowQuestionGenerator(userName, model));
-		generators.add(new IndividualWhoQuestionGenerator(userName, anEnvironment.getTraceModel(), anEnvironment.getResourceBundle()));
-		generators.add(new IndividualWhatQuestionGenerator(userName, anEnvironment.getTraceModel(),anEnvironment.getResourceBundle()));
+		generators.add(new IndividualWhoQuestionGenerator(userName, anEnvironment.getTraceModel(), aResourceBundle));
+		generators.add(new IndividualWhatQuestionGenerator(userName, anEnvironment.getTraceModel(),aResourceBundle));
 		//
 		//Coordination questions
-		generators.add(new CoordinationWhoQuestionGenerator(anEnvironment.getCoordinationSupportSystem(), someUserNames, anEnvironment.getResourceBundle()));
+		generators.add(new CoordinationWhoQuestionGenerator(anEnvironment.getCoordinationSupportSystem(), someUserNames, aResourceBundle));
 
 		// create random order for questions
 		Collections.shuffle(generators);
