@@ -3,6 +3,7 @@ package net.oemig.scta.tracer.coordination.question;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 import net.oemig.scta.model.data.QuestionType;
@@ -19,11 +20,13 @@ public class CoordinationWhoQuestionGenerator implements IQuestionGenerator {
 
 	private final ICoordinationSupportSystem coordinationSupportSystem;
 	private final List<UserName> allUserNames;
+	private final ResourceBundle resourceBundle;
 
 
-	public CoordinationWhoQuestionGenerator(ICoordinationSupportSystem aCoordinationSupportSystem, Set<UserName> someUserNames){
+	public CoordinationWhoQuestionGenerator(ICoordinationSupportSystem aCoordinationSupportSystem, Set<UserName> someUserNames, ResourceBundle aResourceBundle){
 		coordinationSupportSystem=aCoordinationSupportSystem;
 		allUserNames=Lists.newArrayList(someUserNames);
+		resourceBundle=aResourceBundle;
 	}
 	
 	
@@ -48,7 +51,7 @@ public class CoordinationWhoQuestionGenerator implements IQuestionGenerator {
 		for(UserName u:allUserNames){
 			answers.add(u.toString());
 		}
-		answers.add("Nobody (already counted)");
+		answers.add(resourceBundle.getString("q.c.who.nobody"));
 		//array out of bounds exception protection.. in case there is only one user
 		if(answers.size()<3){
 			answers.add("");
@@ -57,7 +60,7 @@ public class CoordinationWhoQuestionGenerator implements IQuestionGenerator {
 		
 		Collections.shuffle(answers);
 		
-		return new Question("Who may count "+c+"'s next?", 
+		return new Question(resourceBundle.getString("q.c.who.1")+c+resourceBundle.getString("q.c.who.2"), 
 				answers.get(0), 
 				answers.get(1), 
 				answers.get(2), 

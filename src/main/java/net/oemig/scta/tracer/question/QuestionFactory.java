@@ -36,14 +36,14 @@ public final class QuestionFactory {
 	public static Question[] getMultiple(final UserName userName, Environment anEnvironment, Set<UserName> someUserNames) throws NoCurrentRunSelectedException, QuestionGenerationFailedException {
 		List<IQuestionGenerator> generators = Lists.newArrayList();
 //		generators.add(new GroupHowQuestionGenerator(userName, model));
-		generators.add(new GroupWhoQuestionGenerator(userName, anEnvironment.getTraceModel()));
-		generators.add(new GroupWhatQuestionGenerator(userName, anEnvironment.getTraceModel()));
+		generators.add(new GroupWhoQuestionGenerator(userName, anEnvironment.getTraceModel(), anEnvironment.getResourceBundle()));
+		generators.add(new GroupWhatQuestionGenerator(userName, anEnvironment.getTraceModel(),anEnvironment.getResourceBundle()));
 //		generators.add(new IndividualHowQuestionGenerator(userName, model));
-		generators.add(new IndividualWhoQuestionGenerator(userName, anEnvironment.getTraceModel()));
-		generators.add(new IndividualWhatQuestionGenerator(userName, anEnvironment.getTraceModel()));
+		generators.add(new IndividualWhoQuestionGenerator(userName, anEnvironment.getTraceModel(), anEnvironment.getResourceBundle()));
+		generators.add(new IndividualWhatQuestionGenerator(userName, anEnvironment.getTraceModel(),anEnvironment.getResourceBundle()));
 		//
 		//Coordination questions
-		generators.add(new CoordinationWhoQuestionGenerator(anEnvironment.getCoordinationSupportSystem(), someUserNames));
+		generators.add(new CoordinationWhoQuestionGenerator(anEnvironment.getCoordinationSupportSystem(), someUserNames, anEnvironment.getResourceBundle()));
 
 		// create random order for questions
 		Collections.shuffle(generators);

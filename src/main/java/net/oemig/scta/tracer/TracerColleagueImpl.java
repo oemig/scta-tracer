@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import javax.swing.JOptionPane;
 
@@ -44,7 +46,7 @@ public class TracerColleagueImpl implements ITracerColleague,
 		this.userName = UserName.of(JOptionPane
 				.showInputDialog("Please enter a user name!"));
 		
-		this.waitScreen = new WaitScreen("Connecting...");
+		this.waitScreen = new WaitScreen(this);
 		this.documentScreen = new DocumentScreen(this);
 		this.freezeProbeScreen = new FreezeProbeScreen(this);
 		this.awarenessDisplay=new AwarenessDisplay();
@@ -137,5 +139,10 @@ public class TracerColleagueImpl implements ITracerColleague,
 			throws RemoteException {
 		
 		coordinationDisplay.update(someContents);
+	}
+
+	@Override
+	public ResourceBundle getResourceBundle() {
+		return ResourceBundle.getBundle("i18n", Locale.getDefault());
 	}
 }

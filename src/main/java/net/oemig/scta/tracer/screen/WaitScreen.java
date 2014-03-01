@@ -6,6 +6,8 @@ import java.awt.Point;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import net.oemig.scta.tracer.ITracerColleagueScreenSPI;
+
 public class WaitScreen implements IScreen {
 
 	private static final long serialVersionUID = 5199791874732847255L;
@@ -14,14 +16,15 @@ public class WaitScreen implements IScreen {
 	private final int width=450;
 	private final int height=500;
 
-	public WaitScreen(String message) {
-		this.f = new JFrame("Wait Screen");
+	public WaitScreen(ITracerColleagueScreenSPI aColleagueScreenSpi) {
+		
+		this.f = new JFrame(aColleagueScreenSpi.getResourceBundle().getString("wait.screen"));
 		// f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Point p=GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint();
 		Point leftCorner=new Point(p.x-Math.round(width/2), p.y-Math.round(height/2));
 		f.setLocation(leftCorner);
 		
-		l = new JLabel("Please wait: " + message);
+		l = new JLabel(aColleagueScreenSpi.getResourceBundle().getString("please.wait"));
 		f.getContentPane().add(l);
 		f.setSize(width, height);
 

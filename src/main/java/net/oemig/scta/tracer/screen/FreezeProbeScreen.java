@@ -40,9 +40,15 @@ public class FreezeProbeScreen implements IScreen {
 	private final int width=450;
 	private final int height=500;
 
-	public FreezeProbeScreen(ITracerColleagueScreenSPI newColleagueScreenSPI) {
+
+	/**
+	 * Constructor 
+	 * @param newColleagueScreenSPI
+	 * @throws RemoteException
+	 */
+	public FreezeProbeScreen(ITracerColleagueScreenSPI newColleagueScreenSPI) throws RemoteException {
 		this.colleagueScreenSPI = newColleagueScreenSPI;
-		this.f = new JFrame("Freeze Probe");
+		this.f = new JFrame(colleagueScreenSPI.getResourceBundle().getString("fps.title"));
 		Point p=GraphicsEnvironment.getLocalGraphicsEnvironment().getCenterPoint();
 		Point leftCorner=new Point(p.x-Math.round(width/2), p.y-Math.round(height/2));
 		f.setLocation(leftCorner);
@@ -128,14 +134,14 @@ public class FreezeProbeScreen implements IScreen {
 	}
 
 	private void fillQuestion(int i) {
-		this.f.setTitle("Freeze Probe - Question #" + (i + 1));
+		this.f.setTitle(colleagueScreenSPI.getResourceBundle().getString("fps.title"));
 		this.g.clearSelection();
-
-		this.lbQuestion.setText("<html><font size=+2>Question #" + (i + 1) + ": "
+		
+		this.lbQuestion.setText("<html><font size=+2>"+colleagueScreenSPI.getResourceBundle().getString("fps.question") + (i + 1) + ": <br>"
 				+ questions[i].get()+"</font></html>");
-		this.rbOption1.setText("Answer 1: " + questions[i].getAnswer1());
-		this.rbOption2.setText("Answer 2: " + questions[i].getAnswer2());
-		this.rbOption3.setText("Answer 3: " + questions[i].getAnswer3());
+		this.rbOption1.setText(colleagueScreenSPI.getResourceBundle().getString("fps.answer")+" 1: " + questions[i].getAnswer1());
+		this.rbOption2.setText(colleagueScreenSPI.getResourceBundle().getString("fps.answer")+" 2: " + questions[i].getAnswer2());
+		this.rbOption3.setText(colleagueScreenSPI.getResourceBundle().getString("fps.answer")+" 3: " + questions[i].getAnswer3());
 
 		this.rbOption1.setActionCommand(Boolean.valueOf(
 				questions[i].getAnswer1().equals(

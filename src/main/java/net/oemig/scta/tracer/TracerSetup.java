@@ -14,7 +14,7 @@ import net.oemig.scta.tracer.exception.TracerException;
 
 public class TracerSetup {
 
-	private static final String TRACER_LOOKUP_NAME = "Tracer";
+	private static final String TRACER_LOOKUP_NAME = "TracerLookupName";
 	public static final String TRACER_VERSION = "2.0";
 
 	public static void main(String[] args) throws Exception {
@@ -58,7 +58,7 @@ public class TracerSetup {
 	private ITracerMediator lookupMediator() throws TracerException {
 		try {
 			return (ITracerMediator) LocateRegistry.getRegistry().lookup(
-					TRACER_LOOKUP_NAME);
+					System.getProperty(TRACER_LOOKUP_NAME));
 		} catch (AccessException e1) {
 			throw new TracerException(TracerException.ACCESS_EXCEPTION, e1);
 		} catch (RemoteException e1) {
@@ -72,7 +72,7 @@ public class TracerSetup {
 		try {
 			ITracerMediator stub = (ITracerMediator) UnicastRemoteObject
 					.exportObject(mediator, 0);
-			LocateRegistry.getRegistry().bind(TRACER_LOOKUP_NAME, stub);
+			LocateRegistry.getRegistry().bind(System.getProperty(TRACER_LOOKUP_NAME), stub);
 		} catch (RemoteException e) {
 			throw new TracerException(TracerException.REMOTE_EXCEPTION, e);
 		} catch (AlreadyBoundException e) {

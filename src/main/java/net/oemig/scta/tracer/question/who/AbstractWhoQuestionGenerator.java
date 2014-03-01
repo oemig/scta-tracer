@@ -3,6 +3,7 @@
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import net.oemig.scta.model.ICountData;
 import net.oemig.scta.model.ITraceModel;
@@ -19,13 +20,16 @@ import com.google.common.collect.Lists;
 public abstract class AbstractWhoQuestionGenerator implements
 		IQuestionGenerator {
 
-	private UserName userName;
-	private ITraceModel model;
+	private final UserName userName;
+	private final ITraceModel model;
+	private final ResourceBundle resourceBundle;
 
 	public AbstractWhoQuestionGenerator(final UserName newUserName, 
-										final ITraceModel newModel) {
+										final ITraceModel newModel,
+										final ResourceBundle aResourceBundle) {
 		this.userName = newUserName;
 		this.model = newModel;
+		this.resourceBundle=aResourceBundle;
 	}
 
 	@Override
@@ -34,7 +38,7 @@ public abstract class AbstractWhoQuestionGenerator implements
 		//initialize answers with the user's name and nobody
 		List<String> answers = Lists.newArrayList();
 		answers.add(userName.toString());
-		answers.add(CountDataUtil.NOBODY);
+		answers.add(resourceBundle.getString("q.who.nobody"));
 
 		//then try to add a third answer from count data
 		//or any other random letter that nobody has counted
@@ -53,14 +57,13 @@ public abstract class AbstractWhoQuestionGenerator implements
 					.getUncountedLetters(model.getCurrentRun().getCountData());
 			Collections.shuffle(uncountedLetters);
 			letter = uncountedLetters.get(0);
-			correct = CountDataUtil.NOBODY;
+			correct = resourceBundle.getString("q.who.nobody");
 			answers.add("");
 		}
 
 		Collections.shuffle(answers);
 
-		return new Question("Who counted " + letter + "'s? ("
-				+ getType().name() + ")", answers.get(0), answers.get(1),
+		return new Question(resourceBundle.getString("q.who.1") + letter + resourceBundle.getString("q.who.2"), answers.get(0), answers.get(1),
 				answers.get(2), correct, getType());
 	}
 

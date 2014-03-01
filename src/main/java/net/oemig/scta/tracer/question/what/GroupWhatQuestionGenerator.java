@@ -1,6 +1,7 @@
 package net.oemig.scta.tracer.question.what;
 
 import java.util.Collection;
+import java.util.ResourceBundle;
 
 import net.oemig.scta.model.ICountData;
 import net.oemig.scta.model.ITraceModel;
@@ -11,8 +12,8 @@ import net.oemig.scta.tracer.evaluation.CountDataUtil;
 
 public class GroupWhatQuestionGenerator extends AbstractWhatQuestionGenerator {
 
-	public GroupWhatQuestionGenerator(final UserName aUserName, ITraceModel aTraceModel) {
-		super(aUserName, aTraceModel);
+	public GroupWhatQuestionGenerator(final UserName aUserName, ITraceModel aTraceModel, final ResourceBundle aResourceBundle) {
+		super(aUserName, aTraceModel,aResourceBundle);
 	}
 
 	@Override

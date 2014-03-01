@@ -37,7 +37,7 @@ public class DocumentScreen implements IScreen {
 		
 		this.colleagueScreenSPI = newColleagueScreenSPI;
 
-		this.f = new JFrame("Document Screen");
+		this.f = new JFrame(colleagueScreenSPI.getResourceBundle().getString("ds.title"));
 		// f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setSize(width, height);
 		f.setLocation(leftCorner);
@@ -48,15 +48,15 @@ public class DocumentScreen implements IScreen {
 		f.add(text, BorderLayout.CENTER);
 		JPanel panel = new JPanel();
 
-		panel.add(new JLabel("Letter:"));
+		panel.add(new JLabel(colleagueScreenSPI.getResourceBundle().getString("ds.letter")));
 		final JTextField txtLetter = new JTextField(2);
 		panel.add(txtLetter);
 
-		panel.add(new JLabel("Count:"));
+		panel.add(new JLabel(colleagueScreenSPI.getResourceBundle().getString("ds.count")));
 		final JTextField txtCount = new JTextField(6);
 		panel.add(txtCount);
 
-		JButton btnSubmit = new JButton("Submit");
+		JButton btnSubmit = new JButton(colleagueScreenSPI.getResourceBundle().getString("ds.submit"));
 		panel.add(btnSubmit);
 
 		ActionListener al = new ActionListener() {

@@ -1,5 +1,8 @@
 package net.oemig.scta.tracer;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 import net.oemig.scta.model.ITraceModel;
 import net.oemig.scta.model.exception.NoCurrentSessionSelectedException;
 import net.oemig.scta.model.exporter.IExporter;
@@ -65,6 +68,11 @@ public final class Environment {
 	
 	public ITraceModel getTraceModel(){
 		return model;
+	}
+	
+	public ResourceBundle getResourceBundle(){
+		Locale l=Locale.getDefault();
+		return ResourceBundle.getBundle("i18n",l);
 	}
 	
 	public Environment with(ITraceModel aTraceModel){
