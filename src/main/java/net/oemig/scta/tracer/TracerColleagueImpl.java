@@ -26,6 +26,14 @@ import net.oemig.scta.tracer.screen.WaitScreen;
 public class TracerColleagueImpl implements ITracerColleague,
 		ITracerColleagueScreenSPI, Serializable {
 
+	private static final String AC = "AC";
+
+	private static final String CO = "CO";
+
+	private static final String AO = "AO";
+
+	private static final String OA = "OA";
+
 	private static final long serialVersionUID = 1134304563074106510L;
 
 	private final ITracerMediator mediator;
@@ -37,6 +45,8 @@ public class TracerColleagueImpl implements ITracerColleague,
 	private final AwarenessDisplay awarenessDisplay;
 
 	private final CoordinationDisplay coordinationDisplay;
+
+	private final ExperiementId experimentId;
 
 	public TracerColleagueImpl(ITracerMediator newMediator)
 			throws RemoteException, NoCurrentRunSelectedException {
@@ -52,8 +62,15 @@ public class TracerColleagueImpl implements ITracerColleague,
 		this.awarenessDisplay=new AwarenessDisplay();
 		this.coordinationDisplay=new CoordinationDisplay();
 
-		final ExperiementId experimentId = ExperiementId.of(JOptionPane
-				.showInputDialog(getResourceBundle().getString("colleague.input.experimentid")));
+		Object[] experiments=new Object[]{OA,AO,CO,AC};
+		experimentId = ExperiementId.of((String)JOptionPane
+				.showInputDialog(null,
+								getResourceBundle().getString("colleague.input.experimentid"),
+								getResourceBundle().getString("colleague.input.experimentid.title"),
+								JOptionPane.QUESTION_MESSAGE,
+								null,
+								experiments,
+								"oa"));
 		
 		this.mediator.register(userName,experimentId,
 				(ITracerColleague) UnicastRemoteObject.exportObject(this, 0));
@@ -79,8 +96,18 @@ public class TracerColleagueImpl implements ITracerColleague,
 		this.freezeProbeScreen.hide();
 		this.documentScreen.setDocument(document);
 		this.documentScreen.show();
-		awarenessDisplay.show();
-		coordinationDisplay.show();
+		if(experimentId.toString().equals(AO)||experimentId.toString().equals(AC)){
+			awarenessDisplay.show();
+		}else{
+			awarenessDisplay.hide();	
+		}
+		
+		if(experimentId.toString().equals(AC)||experimentId.toString().equals(CO)){
+			coordinationDisplay.show();	
+		}else{
+			coordinationDisplay.hide();
+		}
+		
 	}
 
 	@Override
