@@ -36,6 +36,10 @@ public class TracerSetup {
 		}
 	}
 
+	/**
+	 * Constructor
+	 * @throws Exception
+	 */
 	public TracerSetup() throws Exception {
 		
 

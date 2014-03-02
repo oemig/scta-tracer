@@ -2,16 +2,16 @@ package net.oemig.scta.tracer.screen;
 
 import java.awt.BorderLayout;
 import java.awt.GraphicsEnvironment;
+import java.awt.GridLayout;
 import java.awt.Point;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 
-import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 
 import net.oemig.scta.model.data.Millisecond;
 import net.oemig.scta.model.exception.NoCurrentRunSelectedException;
@@ -30,10 +30,10 @@ public class FreezeProbeScreen implements IScreen {
 	private final JFrame f;
 	private final JLabel lbQuestion;
 	private final SerializableStopWatch stopWatch;
-	private final JRadioButton rbOption1;
-	private final JRadioButton rbOption2;
-	private final JRadioButton rbOption3;
-	private final ButtonGroup g;
+	private final JButton rbOption1;
+	private final JButton rbOption2;
+	private final JButton rbOption3;
+//	private final ButtonGroup g;
 	private int questionCounter;
 	private int numberOfQuestions;
 	private Question[] questions;
@@ -58,69 +58,64 @@ public class FreezeProbeScreen implements IScreen {
 		this.numberOfQuestions = 0;
 		this.lbQuestion = new JLabel();
 		f.add(lbQuestion, BorderLayout.PAGE_START);
-		JPanel panel = new JPanel();
-		panel.setLayout(new BorderLayout());
+		//the button panel
+		JPanel pButtons = new JPanel();
+		pButtons.setLayout(new GridLayout(3,3));
 		this.stopWatch = new SerializableStopWatch();
-		this.rbOption1 = new JRadioButton();
-		panel.add(rbOption1, BorderLayout.PAGE_START);
-		this.rbOption2 = new JRadioButton();
-		panel.add(rbOption2, BorderLayout.CENTER);
-		this.rbOption3 = new JRadioButton();
-		panel.add(rbOption3, BorderLayout.PAGE_END);
-		f.add(panel, BorderLayout.CENTER);
-		this.g = new ButtonGroup();
-		g.add(rbOption1);
-		g.add(rbOption2);
-		g.add(rbOption3);
+		this.rbOption1 = new JButton();
+		pButtons.add(rbOption1);
+		this.rbOption2 = new JButton();
+		pButtons.add(rbOption2);
+		this.rbOption3 = new JButton();
+		pButtons.add(rbOption3);
+		f.add(pButtons, BorderLayout.CENTER);
+//		this.g = new ButtonGroup();
+//		g.add(rbOption1);
+//		g.add(rbOption2);
+//		g.add(rbOption3);
 		
 		//an item listener waits for the selection of an
 		//option and forwards the answer to the mediator
-		ItemListener il = new ItemListener() {
+		ActionListener il = new ActionListener() {
+
 			@Override
-			public void itemStateChanged(ItemEvent e) {
-				if (e.getStateChange() == ItemEvent.SELECTED) {
-					stopWatch.stop();
-					// System.out.println("item selected: "
-					// + ();
-					//
-					// System.out.println("duration (time in millis): "
-					// + stopWatch.getTime());
+			public void actionPerformed(ActionEvent arg0) {
+				stopWatch.stop();
 
-					try {
-						colleagueScreenSPI.getMediator().saveResponseData(
-								colleagueScreenSPI.getUserName(),
-								Boolean.valueOf(
-										((JRadioButton) e.getItem())
-												.getActionCommand())
-										.booleanValue(),
-								Millisecond.of(stopWatch.getTime()),
-								questions[questionCounter].getType()
-								);
-					} catch (RemoteException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (NoCurrentRunSelectedException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-
-					// continue with next question
-					questionCounter++;
-					stopWatch.reset();
-					if (questionCounter < numberOfQuestions) {
-						fillQuestion(questionCounter);
-					} else {
-						System.out.println("Finished");
-
-						colleagueScreenSPI.finishedFreezeProbe();
-					}
+				try {
+					colleagueScreenSPI.getMediator().saveResponseData(
+							colleagueScreenSPI.getUserName(),
+							Boolean.valueOf(
+									arg0.getActionCommand())
+									.booleanValue(),
+							Millisecond.of(stopWatch.getTime()),
+							questions[questionCounter].getType()
+							);
+				} catch (RemoteException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (NoCurrentRunSelectedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
+
+				// continue with next question
+				questionCounter++;
+				stopWatch.reset();
+				if (questionCounter < numberOfQuestions) {
+					fillQuestion(questionCounter);
+				} else {
+					System.out.println("Finished");
+
+					colleagueScreenSPI.finishedFreezeProbe();
+				}
+				
 			}
 		};
 		//add item listener to each option
-		rbOption1.addItemListener(il);
-		rbOption2.addItemListener(il);
-		rbOption3.addItemListener(il);
+		rbOption1.addActionListener(il);
+		rbOption2.addActionListener(il);
+		rbOption3.addActionListener(il);
 
 		
 
@@ -135,13 +130,13 @@ public class FreezeProbeScreen implements IScreen {
 
 	private void fillQuestion(int i) {
 		this.f.setTitle(colleagueScreenSPI.getResourceBundle().getString("fps.title"));
-		this.g.clearSelection();
+//		this.g.clearSelection();
 		
 		this.lbQuestion.setText("<html>"+colleagueScreenSPI.getResourceBundle().getString("fps.question") + (i + 1) + ": <br><font size=+2>"
 				+ questions[i].get()+"</font></html>");
-		this.rbOption1.setText(colleagueScreenSPI.getResourceBundle().getString("fps.answer")+" 1: " + questions[i].getAnswer1());
-		this.rbOption2.setText(colleagueScreenSPI.getResourceBundle().getString("fps.answer")+" 2: " + questions[i].getAnswer2());
-		this.rbOption3.setText(colleagueScreenSPI.getResourceBundle().getString("fps.answer")+" 3: " + questions[i].getAnswer3());
+		this.rbOption1.setText("<html><font size=+1>"+colleagueScreenSPI.getResourceBundle().getString("fps.answer")+" 1: " + questions[i].getAnswer1()+"</font></html>");
+		this.rbOption2.setText("<html><font size=+1>"+colleagueScreenSPI.getResourceBundle().getString("fps.answer")+" 2: " + questions[i].getAnswer2()+"</font></html>");
+		this.rbOption3.setText("<html><font size=+1>"+colleagueScreenSPI.getResourceBundle().getString("fps.answer")+" 3: " + questions[i].getAnswer3()+"</font></html>");
 
 		this.rbOption1.setActionCommand(Boolean.valueOf(
 				questions[i].getAnswer1().equals(
