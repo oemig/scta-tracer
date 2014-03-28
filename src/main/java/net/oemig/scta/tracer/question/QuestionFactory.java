@@ -44,7 +44,7 @@ public final class QuestionFactory {
 		generators.add(new IndividualWhatQuestionGenerator(userName, anEnvironment.getTraceModel(),aResourceBundle));
 		//
 		//Coordination questions
-		generators.add(new CoordinationWhoQuestionGenerator(anEnvironment.getCoordinationSupportSystem(), someUserNames, aResourceBundle));
+		generators.add(new CoordinationWhoQuestionGenerator(anEnvironment.getCoordinationSupportSystem(), someUserNames, aResourceBundle, anEnvironment.getTraceModel().getCurrentRun().getCountData()));
 
 		// create random order for questions
 		Collections.shuffle(generators);

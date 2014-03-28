@@ -18,6 +18,7 @@ import net.oemig.scta.model.exception.ResponseDataMissingException;
 import net.oemig.scta.tracer.awareness.AwarenessEvent;
 import net.oemig.scta.tracer.awareness.IAwarenessSupportListener;
 import net.oemig.scta.tracer.coordination.ICoordinationSupportListener;
+import net.oemig.scta.tracer.coordination.exception.CoordinationSupportUnavailableException;
 import net.oemig.scta.tracer.evaluation.EvaluationResult;
 import net.oemig.scta.tracer.evaluation.IEvaluation;
 import net.oemig.scta.tracer.evaluation.exception.ModelMissingException;
@@ -59,8 +60,9 @@ public class TracerMediatorImpl implements ITracerMediator,
 	 * @throws NoCurrentSessionSelectedException 
 	 * @throws NoCurrentRunSelectedException 
 	 * @throws TracerException 
+	 * @throws CoordinationSupportUnavailableException 
 	 */
-	public TracerMediatorImpl() throws NoCurrentRunSelectedException, NoCurrentSessionSelectedException, TracerException {
+	public TracerMediatorImpl() throws NoCurrentRunSelectedException, NoCurrentSessionSelectedException, TracerException, CoordinationSupportUnavailableException {
 		
 		
 		String traceName = JOptionPane
@@ -339,6 +341,8 @@ public class TracerMediatorImpl implements ITracerMediator,
 				c.updateCoordinationDisplay(getEnvironment().getCoordinationSupportSystem().getLetterSet(u));
 			} catch (RemoteException e) {
 				throw new TracerException(TracerException.REMOTE_EXCEPTION, e);
+			} catch (CoordinationSupportUnavailableException e) {
+				envinronment.getLogger().log("Coordination support unavailable");
 			}
 		}
 	}
