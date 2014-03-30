@@ -195,7 +195,7 @@ public class PropertyConfigurationImpl implements IConfiguration {
 
 	private Properties createDefaultProperties() {
 		Properties dp = new Properties();
-		dp.setProperty(RUN_DURATION, Integer.toString(15000));
+		dp.setProperty(RUN_DURATION, Integer.toString(200000));
 		dp.setProperty(FREEZE_PROBES_PER_RUN, Integer.toString(1));
 		dp.setProperty(QUESTIONS_PER_FREEZE_PROBE, Integer.toString(4));
 		dp.setProperty(DOCUMENT_SIZE, Integer.toString(2250));
